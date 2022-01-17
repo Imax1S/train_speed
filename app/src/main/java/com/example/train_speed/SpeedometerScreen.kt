@@ -4,6 +4,7 @@ import android.os.CountDownTimer
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
+import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -24,7 +25,8 @@ fun SpeedometerScreen(params: State<InputData?>) {
     val railsBehind = rememberSaveable { mutableStateOf(0) }
     val isStart = rememberSaveable { mutableStateOf(true) }
     val secondsFromToock = rememberSaveable { mutableStateOf(0) }
-
+    val isGravitySensorOn = rememberSaveable { mutableStateOf(false) }
+    val selectedMode = rememberSaveable { mutableStateOf("Manual") }
 
     val padding = 16.dp
     Column(
@@ -34,6 +36,10 @@ fun SpeedometerScreen(params: State<InputData?>) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Text(text = selectedMode.value)
+        Switch(
+            checked = isGravitySensorOn.value,
+            onCheckedChange = { isGravitySensorOn.value = !isGravitySensorOn.value })
         Text(text = "Длинна рейльс:")
         TextField(
             value = railLength.value.toString(),
@@ -48,7 +54,7 @@ fun SpeedometerScreen(params: State<InputData?>) {
             modifier = Modifier.wrapContentWidth()
         )
         Spacer(Modifier.size(padding))
-        Text(text =  "${"%.2f".format(trainSpeed.value).toDouble()} m / sec")
+        Text(text = "${"%.2f".format(trainSpeed.value).toDouble()} m / sec")
         Button(
             modifier = Modifier.padding(vertical = 24.dp),
             onClick = {
