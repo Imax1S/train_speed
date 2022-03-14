@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">train_speed</string>
+    <string name="manual_hint">This is a manual mode. Tap when you hear a took of the train</string>
+    <string name="accelerometer_hint">This is an accelerometer mode.
+        It uses phone\'s sensor to measure the acceleration and then calculates the speed</string>
 </resources>

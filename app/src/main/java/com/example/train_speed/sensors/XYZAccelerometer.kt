@@ -2,27 +2,30 @@ package com.example.train_speed.sensors
 
 import android.hardware.Sensor
 import android.hardware.SensorEvent
+import android.util.Log
+import android.view.Gravity
 import com.example.train_speed.models.Point
-
-import android.hardware.SensorManager
-import android.hardware.SensorManager.DATA_X
 
 class XYZAccelerometer : Accelerometer() {
     private val BUFFER_SIZE = 500
 
     // calibration
     private val dX = 0f
-    private val dY = 0f
+    private val dY = -9.78f
     private val dZ = 0f
 
     // buffer variables
-    private var X = 0f
-    private var Y = 0f
-    private var Z = 0f
+    var X = 0f
+    var Y = 0f
+    var Z = 0f
     private var cnt = 0
 
+    // returns last SenorEvent parameters
+    fun getLastPoint(): Point {
+        return Point(lastX, lastY, lastZ, 1)
+    }
 
-    override fun getPoint(): Point? {
+    override fun getPoint(): Point {
         if (cnt == 0) {
             return Point(lastX, lastY, lastZ, 1)
         }
@@ -43,6 +46,7 @@ class XYZAccelerometer : Accelerometer() {
         X += x
         Y += y
         Z += z
+
         if (cnt < BUFFER_SIZE - 1) {
             cnt++
         } else {
@@ -51,7 +55,7 @@ class XYZAccelerometer : Accelerometer() {
     }
 
     // resets buffer
-    private fun reset() {
+    fun reset() {
         cnt = 0
         X = 0f
         Y = 0f

@@ -15,15 +15,15 @@ import java.util.*
 
 class MainActivity : ComponentActivity() {
 
-    private val speedometerViewModel by viewModels<SpeedometerViewModel>()
-    private val speedometerDisplay: SpeedometerDisplay = SpeedometerDisplay()
+    private val speedometerViewModel by viewModels<ScreenDrawerViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val startTime = Calendar.getInstance().timeInMillis
         setContent {
             Train_speedTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    SpeedometerActivityScreen(speedometerViewModel, speedometerDisplay)
+                    DrawMainScreen(speedometerViewModel)
                 }
             }
         }
@@ -31,10 +31,10 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun SpeedometerActivityScreen(
-    speedometerViewModel: SpeedometerViewModel,
-    speedometerDisplay: SpeedometerDisplay
+fun DrawMainScreen(
+    screenDrawerViewModel: ScreenDrawerViewModel
 ) {
-    val params: State<InputData?> = speedometerViewModel.params.observeAsState()
-    SpeedometerScreen(params, speedometerDisplay)
+    val params: State<InputData?> = screenDrawerViewModel.params.observeAsState()
+    val screenDrawer = ScreenDrawer(screenDrawerViewModel)
+    screenDrawer.SpeedometerScreen(params)
 }
