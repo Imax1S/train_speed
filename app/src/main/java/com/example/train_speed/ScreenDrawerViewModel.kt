@@ -21,7 +21,7 @@ class ScreenDrawerViewModel(application: Application) : AndroidViewModel(applica
     private var measureMode: IMeasureMode =
         ManualMode(application.applicationContext, params.value ?: InputData(25))
     var trainSpeed = getSpeed()
-    var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
+    private var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
     val permissionCheck = PermissionCheck()
 
     fun changeMode(newMode: MeasureMode, context: Context) {
@@ -65,7 +65,7 @@ class ScreenDrawerViewModel(application: Application) : AndroidViewModel(applica
         measureMode.Display()
     }
 
-    fun startMeasure() {
+    private fun startMeasure() {
         measureMode.setUp()
     }
 

@@ -16,7 +16,7 @@ class MeasureData(interval: Long) {
 
     fun addPoint(p: Point) {
         accData.add(p)
-        var speed = 0f
+        val speed = 0f
 
 //        if (data.size > 0) {
 //            speed = data.last.speedAfter.toFloat()

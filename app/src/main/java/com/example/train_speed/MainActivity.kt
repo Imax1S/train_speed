@@ -1,6 +1,5 @@
 package com.example.train_speed
 
-import android.app.Application
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,6 @@ import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.core.content.ContextCompat
 import com.example.train_speed.drawers.ScreenDrawer
 import com.example.train_speed.models.InputData
 import com.example.train_speed.ui.theme.Train_speedTheme

@@ -173,6 +173,7 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
             MeasureMode.MANUAL -> screenDrawerViewModel.DrawMode()
             MeasureMode.ACCELEROMETER -> screenDrawerViewModel.DrawMode()
             MeasureMode.MICROPHONE -> screenDrawerViewModel.DrawMode()
+            else -> {}
         }
     }
 }

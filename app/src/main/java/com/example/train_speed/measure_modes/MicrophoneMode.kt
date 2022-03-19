@@ -3,14 +3,12 @@ package com.example.train_speed.measure_modes
 import android.content.Context
 import android.media.MediaRecorder
 import android.os.Build
-import android.os.Environment
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.train_speed.drawers.MicroSpeedometer
 import com.example.train_speed.R
+import com.example.train_speed.drawers.MicroSpeedometer
 import java.io.IOException
 
 class MicrophoneMode(private val context: Context) : IMeasureMode {
