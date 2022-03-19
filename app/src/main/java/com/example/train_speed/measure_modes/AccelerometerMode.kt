@@ -3,7 +3,7 @@ package com.example.train_speed.measure_modes
 import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
-import com.example.train_speed.AccSpeedometer
+import com.example.train_speed.drawers.AccSpeedometer
 import com.example.train_speed.AccelerometerPresenter
 import com.example.train_speed.R
 
@@ -28,7 +28,7 @@ class AccelerometerMode(context: Context) : IMeasureMode {
     }
 
     @Composable
-    override fun display() {
+    override fun Display() {
         AccSpeedometer({ accelerometer.onButtonClicked() }, { reset() })
     }
 }

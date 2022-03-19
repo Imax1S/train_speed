@@ -10,6 +10,5 @@ abstract class Accelerometer : SensorEventListener {
     protected var lastZ = 0f
     abstract fun getPoint(): Point?
     override fun onAccuracyChanged(arg0: Sensor?, arg1: Int) {
-
     }
 }

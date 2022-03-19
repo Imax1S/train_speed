@@ -9,5 +9,5 @@ interface IMeasureMode {
     fun countSpeed() : LiveData<String>
 
     @Composable
-    fun display()
+    fun Display()
 }

@@ -5,7 +5,7 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.train_speed.ManualSpeedometer
+import com.example.train_speed.drawers.ManualSpeedometer
 import com.example.train_speed.R
 import com.example.train_speed.models.InputData
 
@@ -67,7 +67,7 @@ class ManualMode(context: Context, val inputData: InputData) : IMeasureMode {
 
 
     @Composable
-    override fun display() {
+    override fun Display() {
         ManualSpeedometer { measureSpeed() }
     }
 }

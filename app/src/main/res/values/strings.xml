@@ -3,4 +3,11 @@
     <string name="manual_hint">This is a manual mode. Tap when you hear a took of the train</string>
     <string name="accelerometer_hint">This is an accelerometer mode.
         It uses phone\'s sensor to measure the acceleration and then calculates the speed</string>
+    <string name="rail_length">Rail length:</string>
+    <string name="micro_start">Start</string>
+    <string name="start_measure">Start measure!</string>
+    <string name="pause">Pause</string>
+    <string name="resume">Resume</string>
+    <string name="stop">Stop</string>
+    <string name="reset">Reset</string>
 </resources>

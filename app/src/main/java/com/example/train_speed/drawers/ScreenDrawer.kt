@@ -1,4 +1,4 @@
-package com.example.train_speed
+package com.example.train_speed.drawers
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,11 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.train_speed.MeasureMode
+import com.example.train_speed.R
+import com.example.train_speed.ScreenDrawerViewModel
 import com.example.train_speed.models.InputData
 
 class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
@@ -75,7 +79,7 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
     @Composable
     private fun InputParams(railLength: MutableState<Int>) {
 
-        Text(text = "Длинна рейльс:")
+        Text(text = stringResource(id = R.string.rail_length))
         TextField(
             value = railLength.value.toString(),
             onValueChange = {
@@ -166,8 +170,9 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
         }
 
         when (selectedMode) {
-            MeasureMode.MANUAL -> screenDrawerViewModel.drawMode()
-            MeasureMode.ACCELEROMETER -> screenDrawerViewModel.drawMode()
+            MeasureMode.MANUAL -> screenDrawerViewModel.DrawMode()
+            MeasureMode.ACCELEROMETER -> screenDrawerViewModel.DrawMode()
+            MeasureMode.MICROPHONE -> screenDrawerViewModel.DrawMode()
         }
     }
 }

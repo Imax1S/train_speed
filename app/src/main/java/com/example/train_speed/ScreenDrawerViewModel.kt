@@ -9,7 +9,9 @@ import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.measure_modes.AccelerometerMode
 import com.example.train_speed.measure_modes.IMeasureMode
 import com.example.train_speed.measure_modes.ManualMode
+import com.example.train_speed.measure_modes.MicrophoneMode
 import com.example.train_speed.models.InputData
+import com.example.train_speed.permission.PermissionCheck
 
 class ScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
     private var _params = MutableLiveData(InputData(25)) //TODO add room
@@ -20,7 +22,7 @@ class ScreenDrawerViewModel(application: Application) : AndroidViewModel(applica
         ManualMode(application.applicationContext, params.value ?: InputData(25))
     var trainSpeed = getSpeed()
     var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
-
+    val permissionCheck = PermissionCheck()
 
     fun changeMode(newMode: MeasureMode, context: Context) {
         when (newMode) {
@@ -35,8 +37,13 @@ class ScreenDrawerViewModel(application: Application) : AndroidViewModel(applica
                 trainSpeed = getSpeed()
             }
             MeasureMode.MICROPHONE -> {
-                selectedMeasureMode = MeasureMode.MICROPHONE
-
+                if (permissionCheck.permissionGranted) {
+                    selectedMeasureMode = MeasureMode.MICROPHONE
+                    measureMode = MicrophoneMode(context)
+                    trainSpeed = getSpeed()
+                } else {
+                    permissionCheck.requestPermissions(context)
+                }
             }
             MeasureMode.GRAVITY -> {
                 selectedMeasureMode = MeasureMode.GRAVITY
@@ -54,8 +61,8 @@ class ScreenDrawerViewModel(application: Application) : AndroidViewModel(applica
     }
 
     @Composable
-    fun drawMode() {
-        measureMode.display()
+    fun DrawMode() {
+        measureMode.Display()
     }
 
     fun startMeasure() {

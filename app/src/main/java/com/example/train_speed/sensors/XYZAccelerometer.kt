@@ -1,9 +1,6 @@
 package com.example.train_speed.sensors
 
-import android.hardware.Sensor
 import android.hardware.SensorEvent
-import android.util.Log
-import android.view.Gravity
 import com.example.train_speed.models.Point
 
 class XYZAccelerometer : Accelerometer() {
