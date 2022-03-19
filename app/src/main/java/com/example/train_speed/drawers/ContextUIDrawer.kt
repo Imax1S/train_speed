@@ -1,7 +1,6 @@
 package com.example.train_speed.drawers
 
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -13,7 +12,10 @@ import com.example.train_speed.R
 @Composable
 fun ManualSpeedometer(onButtonClick: () -> Unit) {
     Button(
-        modifier = Modifier.padding(vertical = 24.dp),
+        modifier = Modifier
+            .padding(vertical = 24.dp)
+            .width(120.dp)
+            .height(70.dp),
         onClick = {
             onButtonClick.invoke()
         }
