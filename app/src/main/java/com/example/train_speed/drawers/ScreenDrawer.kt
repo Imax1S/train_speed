@@ -27,11 +27,12 @@ import com.example.train_speed.ScreenDrawerViewModel
 import com.example.train_speed.models.InputData
 
 class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
+    private val padding = 16.dp
 
+    //Main screen drawer
     @Composable
     fun SpeedometerScreen(params: State<InputData?>) {
         val railLength = rememberSaveable { mutableStateOf(params.value?.railLength ?: 0) }
-        val padding = 16.dp
 
         Column(
             modifier = Modifier
@@ -40,14 +41,28 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-
-
             //Dropdown menu of measure modes
             ModesDropDownMenu()
+        }
+    }
 
-            //Input params (rail length exc.)
+    @Composable
+    fun ParamsScreen(params: State<InputData?>) {
+        val railLength = rememberSaveable { mutableStateOf(params.value?.railLength ?: 0) }
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Top
+        ) {
             InputParams(railLength)
         }
+    }
+
+    @Composable
+    fun DataScreen() {
+
     }
 
     @Composable
@@ -74,7 +89,6 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
             }
         }
     }
-
 
     @Composable
     private fun InputParams(railLength: MutableState<Int>) {
@@ -113,7 +127,6 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
             Card(
                 modifier = Modifier
                     .padding(padding)
-
             ) {
                 Box(
                     modifier = Modifier
