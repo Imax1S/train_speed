@@ -18,7 +18,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.train_speed.drawers.ScreenDrawer
+import com.example.train_speed.drawers.DataScreenDrawer
+import com.example.train_speed.drawers.ParamsScreenDrawer
+import com.example.train_speed.drawers.SpeedometerScreenDrawer
 import com.example.train_speed.drawers.ScreensEnum
 import com.example.train_speed.models.InputData
 import com.example.train_speed.ui.theme.Train_speedTheme
@@ -50,7 +52,7 @@ fun DrawMainScreen(
 
     val navController = rememberNavController()
     val bottomItems = ScreensEnum.values()
-    val screenDrawer = ScreenDrawer(screenDrawerViewModel)
+    val screenDrawer = SpeedometerScreenDrawer(screenDrawerViewModel)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -83,9 +85,9 @@ fun DrawMainScreen(
         }
     ) {
         NavHost(startDestination = ScreensEnum.Measure.name, navController = navController) {
-            composable(ScreensEnum.Params.name) { screenDrawer.ParamsScreen(params) }
+            composable(ScreensEnum.Params.name) { ParamsScreenDrawer().ParamsScreen(params) }
             composable(ScreensEnum.Measure.name) { screenDrawer.SpeedometerScreen(params) }
-            composable(ScreensEnum.Data.name) { screenDrawer.DataScreen() }
+            composable(ScreensEnum.Data.name) { DataScreenDrawer().DataScreen() }
         }
     }
 }

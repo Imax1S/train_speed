@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
@@ -15,18 +14,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.train_speed.MeasureMode
-import com.example.train_speed.R
 import com.example.train_speed.ScreenDrawerViewModel
 import com.example.train_speed.models.InputData
 
-class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
+class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
     private val padding = 16.dp
 
     //Main screen drawer
@@ -44,25 +40,6 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
             //Dropdown menu of measure modes
             ModesDropDownMenu()
         }
-    }
-
-    @Composable
-    fun ParamsScreen(params: State<InputData?>) {
-        val railLength = rememberSaveable { mutableStateOf(params.value?.railLength ?: 0) }
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
-        ) {
-            InputParams(railLength)
-        }
-    }
-
-    @Composable
-    fun DataScreen() {
-
     }
 
     @Composable
@@ -88,26 +65,6 @@ class ScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
                 )
             }
         }
-    }
-
-    @Composable
-    private fun InputParams(railLength: MutableState<Int>) {
-
-        Text(text = stringResource(id = R.string.rail_length))
-        TextField(
-            value = railLength.value.toString(),
-            onValueChange = {
-                try {
-                    railLength.value = it.toInt()
-                } catch (exc: NumberFormatException) {
-                    railLength.value = 0
-                }
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .wrapContentWidth()
-                .padding(8.dp)
-        )
     }
 
     @Composable
