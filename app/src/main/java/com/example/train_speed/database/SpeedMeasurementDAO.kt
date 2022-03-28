@@ -1,16 +1,18 @@
 package com.example.train_speed.database
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.train_speed.models.SpeedMeasurement
 import kotlinx.coroutines.flow.Flow
+import java.util.*
 
 @Dao
-interface SpeedMeasurementListDAO {
+interface SpeedMeasurementDAO {
     @Query("SELECT * FROM speed_measurement_table")
-    fun getAllSpeedMeasurements(): Flow<List<SpeedMeasurement>>
+    fun getAllSpeedMeasurements(): LiveData<List<SpeedMeasurement>>
 
-    @Query("SELECT * FROM speed_measurement_table WHERE uuid = :uuidString LIMIT 1")
-    fun getOneSpeedMeasurement(uuidString: String): Flow<SpeedMeasurement>
+    @Query("SELECT * FROM speed_measurement_table WHERE id = (:uuid)")
+    fun getOneSpeedMeasurement(uuid: UUID): LiveData<SpeedMeasurement>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertSpeedMeasurement(crime: SpeedMeasurement)

@@ -19,10 +19,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.train_speed.MeasureMode
-import com.example.train_speed.ScreenDrawerViewModel
+import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import com.example.train_speed.models.InputData
 
-class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerViewModel) {
+class SpeedometerScreenDrawer(private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel) {
     private val padding = 16.dp
 
     //Main screen drawer
@@ -45,7 +45,7 @@ class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerVie
     @Composable
     private fun SpeedometerCard(selectedMode: MeasureMode) {
         val padding = 16.dp
-        val trainSpeedLiveData = screenDrawerViewModel.trainSpeed
+        val trainSpeedLiveData = speedometerScreenDrawerViewModel.trainSpeed
 
         val trainSpeed =
             trainSpeedLiveData.observeAsState()
@@ -103,7 +103,7 @@ class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerVie
                         MeasureMode.values().forEach { mode ->
                             DropdownMenuItem(
                                 onClick = {
-                                    screenDrawerViewModel.changeMode(mode, context)
+                                    speedometerScreenDrawerViewModel.changeMode(mode, context)
                                     selectedMode = mode
                                     expandedMenuView = false
                                 }) {
@@ -128,7 +128,7 @@ class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerVie
                         modifier = Modifier
                             .width(160.dp)
                             .padding(8.dp),
-                        text = screenDrawerViewModel.getHintText(),
+                        text = speedometerScreenDrawerViewModel.getHintText(),
                         fontStyle = FontStyle.Italic,
                         textAlign = TextAlign.Start,
                         fontSize = 14.sp,
@@ -140,9 +140,9 @@ class SpeedometerScreenDrawer(private val screenDrawerViewModel: ScreenDrawerVie
         }
 
         when (selectedMode) {
-            MeasureMode.MANUAL -> screenDrawerViewModel.DrawMode()
-            MeasureMode.ACCELEROMETER -> screenDrawerViewModel.DrawMode()
-            MeasureMode.MICROPHONE -> screenDrawerViewModel.DrawMode()
+            MeasureMode.MANUAL -> speedometerScreenDrawerViewModel.DrawMode()
+            MeasureMode.ACCELEROMETER -> speedometerScreenDrawerViewModel.DrawMode()
+            MeasureMode.MICROPHONE -> speedometerScreenDrawerViewModel.DrawMode()
             else -> {}
         }
     }

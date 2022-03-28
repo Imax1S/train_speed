@@ -1,4 +1,4 @@
-package com.example.train_speed
+package com.example.train_speed.view_models
 
 import android.app.Application
 import android.content.Context
@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.train_speed.MeasureMode
 import com.example.train_speed.measure_modes.AccelerometerMode
 import com.example.train_speed.measure_modes.IMeasureMode
 import com.example.train_speed.measure_modes.ManualMode
@@ -13,7 +14,7 @@ import com.example.train_speed.measure_modes.MicrophoneMode
 import com.example.train_speed.models.InputData
 import com.example.train_speed.permission.PermissionCheck
 
-class ScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
+class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
     private var _params = MutableLiveData(InputData(25)) //TODO add room
 
     // state

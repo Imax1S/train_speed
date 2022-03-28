@@ -18,20 +18,25 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.train_speed.database.DatabaseRepository
 import com.example.train_speed.drawers.DataScreenDrawer
 import com.example.train_speed.drawers.ParamsScreenDrawer
 import com.example.train_speed.drawers.SpeedometerScreenDrawer
 import com.example.train_speed.drawers.ScreensEnum
 import com.example.train_speed.models.InputData
 import com.example.train_speed.ui.theme.Train_speedTheme
+import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import java.util.*
 
 class MainActivity : ComponentActivity() {
 
-    private val speedometerViewModel by viewModels<ScreenDrawerViewModel>()
+    private val speedometerViewModel by viewModels<SpeedometerScreenDrawerViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        DatabaseRepository.initialize(this)
+
         val startTime = Calendar.getInstance().timeInMillis
         speedometerViewModel.permissionCheck.requestPermissions(this)
         setContent {
@@ -46,13 +51,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DrawMainScreen(
-    screenDrawerViewModel: ScreenDrawerViewModel
+    speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel
 ) {
-    val params: State<InputData?> = screenDrawerViewModel.params.observeAsState()
+    val params: State<InputData?> = speedometerScreenDrawerViewModel.params.observeAsState()
 
     val navController = rememberNavController()
     val bottomItems = ScreensEnum.values()
-    val screenDrawer = SpeedometerScreenDrawer(screenDrawerViewModel)
+    val screenDrawer = SpeedometerScreenDrawer(speedometerScreenDrawerViewModel)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
