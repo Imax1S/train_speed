@@ -1,4 +1,4 @@
-package com.example.train_speed.measure_modes
+package com.example.train_speed.modes
 
 import android.content.Context
 import android.media.MediaRecorder
@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.R
 import com.example.train_speed.drawers.MicroSpeedometer
+import com.example.train_speed.model.SpeedMeasurement
 import java.io.IOException
 
 class MicrophoneMode(private val context: Context) : IMeasureMode {
@@ -38,7 +39,7 @@ class MicrophoneMode(private val context: Context) : IMeasureMode {
         return hintText
     }
 
-    override fun setUp() {
+    override fun setUp(onFinish: (SpeedMeasurement) -> Unit) {
 //        TODO("Not yet implemented")
     }
 

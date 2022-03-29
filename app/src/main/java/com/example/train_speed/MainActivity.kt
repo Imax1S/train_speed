@@ -23,14 +23,17 @@ import com.example.train_speed.drawers.DataScreenDrawer
 import com.example.train_speed.drawers.ParamsScreenDrawer
 import com.example.train_speed.drawers.SpeedometerScreenDrawer
 import com.example.train_speed.drawers.ScreensEnum
-import com.example.train_speed.models.InputData
+import com.example.train_speed.model.InputData
 import com.example.train_speed.ui.theme.Train_speedTheme
+import com.example.train_speed.view_models.DataScreenViewModel
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import java.util.*
 
 class MainActivity : ComponentActivity() {
 
     private val speedometerViewModel by viewModels<SpeedometerScreenDrawerViewModel>()
+    private val dataScreenViewModel by viewModels<DataScreenViewModel>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +45,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Train_speedTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    DrawMainScreen(speedometerViewModel)
+                    DrawMainScreen(speedometerViewModel, dataScreenViewModel)
                 }
             }
         }
@@ -51,7 +54,8 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun DrawMainScreen(
-    speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel
+    speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel,
+    dataScreenViewModel: DataScreenViewModel
 ) {
     val params: State<InputData?> = speedometerScreenDrawerViewModel.params.observeAsState()
 
@@ -92,7 +96,7 @@ fun DrawMainScreen(
         NavHost(startDestination = ScreensEnum.Measure.name, navController = navController) {
             composable(ScreensEnum.Params.name) { ParamsScreenDrawer().ParamsScreen(params) }
             composable(ScreensEnum.Measure.name) { screenDrawer.SpeedometerScreen(params) }
-            composable(ScreensEnum.Data.name) { DataScreenDrawer().DataScreen() }
+            composable(ScreensEnum.Data.name) { DataScreenDrawer(dataScreenViewModel).DataScreen() }
         }
     }
 }

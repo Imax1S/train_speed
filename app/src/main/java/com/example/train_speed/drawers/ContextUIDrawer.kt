@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.train_speed.R
+import com.example.train_speed.model.SpeedMeasurement
 
 @Composable
 fun ManualSpeedometer(onButtonClick: () -> Unit) {
@@ -43,6 +44,7 @@ fun AccSpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit) {
             modifier = Modifier.padding(bottom = 16.dp),
             onClick = {
                 enabled = true
+                onResetClicked()
             }
         ) {
             Text(text = stringResource(id = R.string.reset))

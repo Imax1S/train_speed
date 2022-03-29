@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import com.example.train_speed.R
-import com.example.train_speed.models.InputData
+import com.example.train_speed.model.InputData
 
 class ParamsScreenDrawer {
     private val padding = 16.dp

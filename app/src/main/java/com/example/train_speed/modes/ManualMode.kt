@@ -1,4 +1,4 @@
-package com.example.train_speed.measure_modes
+package com.example.train_speed.modes
 
 import android.content.Context
 import android.os.CountDownTimer
@@ -7,14 +7,18 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.drawers.ManualSpeedometer
 import com.example.train_speed.R
-import com.example.train_speed.models.InputData
+import com.example.train_speed.model.InputData
+import com.example.train_speed.model.SpeedMeasurement
+import java.util.*
 
 class ManualMode(context: Context, val inputData: InputData) : IMeasureMode {
     private val hintText = context.getString(R.string.manual_hint)
     private var trainSpeed = MutableLiveData("...")
-    var railsBehind = 0
     private var isStart = true
-    var secondsFromToock = 0L
+    private var onFinish: (SpeedMeasurement) -> Unit = {}
+    private var railsBehind = 0
+    private var secondsFromToock = 0L
+    private var averageSpeed = 0
 
     companion object {
         const val INTERVAL = 100L
@@ -25,8 +29,8 @@ class ManualMode(context: Context, val inputData: InputData) : IMeasureMode {
         return hintText
     }
 
-    override fun setUp() {
-
+    override fun setUp(onFinish: (SpeedMeasurement) -> Unit) {
+        this.onFinish = onFinish
     }
 
     override fun countSpeed(): LiveData<String> {
@@ -41,10 +45,9 @@ class ManualMode(context: Context, val inputData: InputData) : IMeasureMode {
             val timer = object : CountDownTimer(TIMER_LONG, INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     secondsFromToock += INTERVAL
-
-                    trainSpeed.value =
+                    averageSpeed =
                         ((inputData.railLength * railsBehind) / (secondsFromToock / 1000.0)).toInt()
-                            .toString() + " km/h"
+                    trainSpeed.value = "$averageSpeed km/h"
                 }
 
                 override fun onFinish() {
@@ -63,6 +66,11 @@ class ManualMode(context: Context, val inputData: InputData) : IMeasureMode {
         trainSpeed.value = "0"
         railsBehind = 0
         secondsFromToock = 0
+
+        val speedMeasurement =
+            SpeedMeasurement(title = "Manual Measure", date = Date(), avgSpeed = trainSpeed.value)
+
+        onFinish(speedMeasurement)
     }
 
 

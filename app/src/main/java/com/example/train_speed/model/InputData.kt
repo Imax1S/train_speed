@@ -1,3 +1,3 @@
-package com.example.train_speed.models
+package com.example.train_speed.model
 
 data class InputData(val railLength: Int)

@@ -1,4 +1,4 @@
-package com.example.train_speed.models
+package com.example.train_speed.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
@@ -18,5 +18,5 @@ data class SpeedMeasurement(
     val date: Date? = Date(),
 
     @ColumnInfo(name = "avg_speed")
-    val avgSpeed: Int? = 0
+    val avgSpeed: String? = "0"
 )

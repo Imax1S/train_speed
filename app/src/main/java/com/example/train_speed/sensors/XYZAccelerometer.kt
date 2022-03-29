@@ -1,7 +1,7 @@
 package com.example.train_speed.sensors
 
 import android.hardware.SensorEvent
-import com.example.train_speed.models.Point
+import com.example.train_speed.model.Point
 
 class XYZAccelerometer : Accelerometer() {
     private val BUFFER_SIZE = 500

@@ -2,8 +2,7 @@ package com.example.train_speed.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.train_speed.models.SpeedMeasurement
-import kotlinx.coroutines.flow.Flow
+import com.example.train_speed.model.SpeedMeasurement
 import java.util.*
 
 @Dao
@@ -15,11 +14,11 @@ interface SpeedMeasurementDAO {
     fun getOneSpeedMeasurement(uuid: UUID): LiveData<SpeedMeasurement>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertSpeedMeasurement(crime: SpeedMeasurement)
+    fun insertSpeedMeasurement(measurement: SpeedMeasurement)
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    fun updateSpeedMeasurement(crime: SpeedMeasurement)
+    fun updateSpeedMeasurement(measurement: SpeedMeasurement)
 
     @Delete
-    fun deleteSpeedMeasurement(crime: SpeedMeasurement)
+    fun deleteSpeedMeasurement(measurement: SpeedMeasurement)
 }

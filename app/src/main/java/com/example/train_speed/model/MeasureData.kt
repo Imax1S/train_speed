@@ -1,4 +1,4 @@
-package com.example.train_speed.models
+package com.example.train_speed.model
 
 import android.content.Context
 import java.io.File

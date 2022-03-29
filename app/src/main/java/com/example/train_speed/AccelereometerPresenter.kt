@@ -9,7 +9,7 @@ import android.os.Looper
 import android.os.Message
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.example.train_speed.models.MeasureData
+import com.example.train_speed.model.MeasureData
 import com.example.train_speed.sensors.Calibrator
 import com.example.train_speed.sensors.XYZAccelerometer
 import java.util.*

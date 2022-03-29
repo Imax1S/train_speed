@@ -1,4 +1,4 @@
-package com.example.train_speed.models
+package com.example.train_speed.model
 
 data class Point(
     val x: Float = 0f,

@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.train_speed.MeasureMode
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
-import com.example.train_speed.models.InputData
+import com.example.train_speed.model.InputData
 
 class SpeedometerScreenDrawer(private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel) {
     private val padding = 16.dp

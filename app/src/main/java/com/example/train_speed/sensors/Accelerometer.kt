@@ -2,7 +2,7 @@ package com.example.train_speed.sensors
 
 import android.hardware.Sensor
 import android.hardware.SensorEventListener
-import com.example.train_speed.models.Point
+import com.example.train_speed.model.Point
 
 abstract class Accelerometer : SensorEventListener {
     protected var lastX = 0f

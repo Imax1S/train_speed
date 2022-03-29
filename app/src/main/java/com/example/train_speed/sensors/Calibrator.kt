@@ -1,7 +1,7 @@
 package com.example.train_speed.sensors
 
 import android.os.Handler
-import com.example.train_speed.models.Point
+import com.example.train_speed.model.Point
 import java.util.*
 
 class Calibrator(
