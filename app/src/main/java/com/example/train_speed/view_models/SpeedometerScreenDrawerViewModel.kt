@@ -2,6 +2,7 @@ package com.example.train_speed.view_models
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -23,7 +24,12 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
     // state
     val params: LiveData<InputData> = _params
     private var measureMode: IMeasureMode =
-        ManualMode(application.applicationContext, params.value ?: InputData(25))
+        ManualMode(
+            application.applicationContext,
+            params.value ?: InputData(25),
+            ::saveMeasurement
+        )
+
     var trainSpeed = getSpeed()
     private var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
     val permissionCheck = PermissionCheck()
@@ -32,12 +38,12 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
         when (newMode) {
             MeasureMode.MANUAL -> {
                 selectedMeasureMode = MeasureMode.MANUAL
-                measureMode = ManualMode(context, params.value ?: return)
+                measureMode = ManualMode(context, params.value ?: return, ::saveMeasurement)
                 trainSpeed = getSpeed()
             }
             MeasureMode.ACCELEROMETER -> {
                 selectedMeasureMode = MeasureMode.ACCELEROMETER
-                measureMode = AccelerometerMode(context)
+                measureMode = AccelerometerMode(context, ::saveMeasurement)
                 trainSpeed = getSpeed()
             }
             MeasureMode.MICROPHONE -> {
@@ -57,7 +63,6 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
                 selectedMeasureMode = MeasureMode.AUTO
             }
         }
-        startMeasure()
     }
 
     fun getHintText(): String {
@@ -69,15 +74,12 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
         measureMode.Display()
     }
 
-    private fun startMeasure() {
-        measureMode.setUp(saveMeasurement)
-    }
-
     private fun getSpeed(): LiveData<String> {
         return measureMode.countSpeed()
     }
 
-    private val saveMeasurement = { measurement: SpeedMeasurement ->
+    fun saveMeasurement(measurement: SpeedMeasurement) {
+        Log.d("TAGA", "save measure")
         databaseRepository.addMeasurement(measurement)
     }
 }

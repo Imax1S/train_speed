@@ -18,5 +18,8 @@ data class SpeedMeasurement(
     val date: Date? = Date(),
 
     @ColumnInfo(name = "avg_speed")
-    val avgSpeed: String? = "0"
+    val avgSpeed: String? = "0",
+
+    @ColumnInfo(name = "measurements")
+    val measurements: List<String>? = listOf("")
 )

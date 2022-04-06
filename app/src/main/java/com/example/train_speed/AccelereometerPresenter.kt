@@ -10,12 +10,15 @@ import android.os.Message
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.model.MeasureData
+import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.sensors.Calibrator
 import com.example.train_speed.sensors.XYZAccelerometer
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.reflect.KProperty0
 
 
-class AccelerometerPresenter(context: Context) {
+class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) -> Unit) {
     companion object {
 
         //status of accelerometer
@@ -30,6 +33,7 @@ class AccelerometerPresenter(context: Context) {
     }
 
     var currentSpeed = MutableLiveData("...")
+    val data: ArrayList<String> = arrayListOf("0")
 
     private var xyzAcc: XYZAccelerometer? = null
     private var mSensorManager: SensorManager =
@@ -58,7 +62,15 @@ class AccelerometerPresenter(context: Context) {
                 TIMER_DONE -> {
                     onMeasureDone()
                     val es1 = mdXYZ?.getLastSpeedKm() ?: 1 * 100 / 100f
-                    currentSpeed.value = "$es1\n  km/h"
+                    currentSpeed.value = "$es1 km/h"
+
+                    val newMeasurement = SpeedMeasurement(
+                        title = "Accelerometer Measure",
+                        date = Date(),
+                        avgSpeed = currentSpeed.value,
+                        measurements = data
+                    )
+                    onFinish(newMeasurement)
                 }
                 START -> {
                     currentSpeed.value = "START"
@@ -74,7 +86,10 @@ class AccelerometerPresenter(context: Context) {
                     )
                 }
                 IN_PROGRESS -> {
-                    currentSpeed.value = mdXYZ?.getCurrentSpeed().toString() + " km/h"
+                    val currentSpeedNumber = mdXYZ?.getCurrentSpeed().toString()
+
+                    data.add(currentSpeedNumber)
+                    currentSpeed.value = "$currentSpeedNumber km/h"
                 }
                 ERROR -> {
                 }
