@@ -3,6 +3,7 @@
     <string name="manual_hint">This is a manual mode. Tap when you hear a took of the train</string>
     <string name="accelerometer_hint">This is an accelerometer mode.
         It uses phone\'s sensor to measure the acceleration and then calculates the speed</string>
+    <string name="microphone_hint">This is a microphone mode. It uses phone\'s micro to count tooks</string>
     <string name="rail_length">Rail length:</string>
     <string name="micro_start">Start</string>
     <string name="start_measure">Start measure!</string>

@@ -11,9 +11,10 @@ import com.example.train_speed.R
 import com.example.train_speed.drawers.MicroSpeedometer
 import com.example.train_speed.model.SpeedMeasurement
 import java.io.IOException
+import java.util.*
 
 class MicrophoneMode(private val context: Context) : IMeasureMode {
-    private val hintText = context.getString(R.string.accelerometer_hint)
+    private val hintText = context.getString(R.string.microphone_hint)
     private var output: String? = null
     private var mediaRecorder: MediaRecorder? = null
     private var isRecording: Boolean = false
@@ -22,7 +23,8 @@ class MicrophoneMode(private val context: Context) : IMeasureMode {
 
 
     init {
-        output = context.getExternalFilesDir(null)?.absolutePath + "/recording.mp3"
+        val date = Date().toString()
+        output = context.getExternalFilesDir(null)?.absolutePath + "/${date}_recording.mp3"
         mediaRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             MediaRecorder(context)
         } else {
