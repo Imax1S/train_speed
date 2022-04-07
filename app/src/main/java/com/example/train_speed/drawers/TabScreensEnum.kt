@@ -1,6 +1,6 @@
 package com.example.train_speed.drawers
 
-enum class ScreensEnum {
+enum class TabScreensEnum {
     Params,
     Measure,
     Data

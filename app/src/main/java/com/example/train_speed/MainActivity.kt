@@ -14,16 +14,11 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.graphics.Color
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.*
 import com.example.train_speed.database.DatabaseRepository
-import com.example.train_speed.drawers.DataScreenDrawer
-import com.example.train_speed.drawers.ParamsScreenDrawer
-import com.example.train_speed.drawers.SpeedometerScreenDrawer
-import com.example.train_speed.drawers.ScreensEnum
+import com.example.train_speed.drawers.*
 import com.example.train_speed.model.InputData
+import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.ui.theme.Train_speedTheme
 import com.example.train_speed.view_models.DataScreenViewModel
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
@@ -60,7 +55,7 @@ fun DrawMainScreen(
     val params: State<InputData?> = speedometerScreenDrawerViewModel.params.observeAsState()
 
     val navController = rememberNavController()
-    val bottomItems = ScreensEnum.values()
+    val bottomItems = TabScreensEnum.values()
     val screenDrawer = SpeedometerScreenDrawer(speedometerScreenDrawerViewModel)
 
     val navBackStackEntry by navController.currentBackStackEntryAsState()
@@ -81,9 +76,9 @@ fun DrawMainScreen(
                         icon = {
                             Icon(
                                 when (it) {
-                                    ScreensEnum.Params -> Icons.Outlined.PermDataSetting
-                                    ScreensEnum.Measure -> Icons.Outlined.Speed
-                                    ScreensEnum.Data -> Icons.Outlined.Assessment
+                                    TabScreensEnum.Params -> Icons.Outlined.PermDataSetting
+                                    TabScreensEnum.Measure -> Icons.Outlined.Speed
+                                    TabScreensEnum.Data -> Icons.Outlined.Assessment
                                 }, contentDescription = it.name
                             )
 
@@ -93,10 +88,21 @@ fun DrawMainScreen(
             }
         }
     ) {
-        NavHost(startDestination = ScreensEnum.Measure.name, navController = navController) {
-            composable(ScreensEnum.Params.name) { ParamsScreenDrawer().ParamsScreen(params) }
-            composable(ScreensEnum.Measure.name) { screenDrawer.SpeedometerScreen(params) }
-            composable(ScreensEnum.Data.name) { DataScreenDrawer(dataScreenViewModel).DataScreen() }
+        NavHost(startDestination = TabScreensEnum.Measure.name, navController = navController) {
+            composable(TabScreensEnum.Params.name) { ParamsScreenDrawer().ParamsScreen(params) }
+            composable(TabScreensEnum.Measure.name) { screenDrawer.SpeedometerScreen(params) }
+            composable(TabScreensEnum.Data.name) {
+                DataScreenDrawer(
+                    navController,
+                    dataScreenViewModel
+                ).DataScreen()
+            }
+            composable("chart_screen") {
+                navController.previousBackStackEntry?.arguments?.getParcelable<SpeedMeasurement>("CHART_KEY")
+                    ?.let {
+                        LineChartDrawer(it)
+                    }
+            }
         }
     }
 }

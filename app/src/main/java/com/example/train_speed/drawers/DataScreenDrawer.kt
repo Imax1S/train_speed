@@ -12,10 +12,16 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.utils.navigate
 import com.example.train_speed.view_models.DataScreenViewModel
 
-class DataScreenDrawer(private val dataScreenViewModel: DataScreenViewModel) {
+class DataScreenDrawer(
+    val navigationController: NavController,
+    private val dataScreenViewModel: DataScreenViewModel
+) {
     private val padding = 16.dp
 
     @Composable
@@ -42,7 +48,12 @@ class DataScreenDrawer(private val dataScreenViewModel: DataScreenViewModel) {
         Button(
             modifier = Modifier
                 .padding(vertical = 8.dp),
-            onClick = {}
+            onClick = {
+                navigationController.navigate(
+                    "chart_screen",
+                    bundleOf("CHART_KEY" to measurement)
+                )
+            }
         ) {
             Column(
             ) {
