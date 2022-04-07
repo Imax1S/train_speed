@@ -5,5 +5,6 @@ enum class MeasureMode {
     ACCELEROMETER,
     MICROPHONE,
     GRAVITY,
-    AUTO
+    AUTO,
+    GPS
 }

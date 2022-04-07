@@ -9,12 +9,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.MeasureMode
 import com.example.train_speed.database.DatabaseRepository
-import com.example.train_speed.modes.AccelerometerMode
-import com.example.train_speed.modes.IMeasureMode
-import com.example.train_speed.modes.ManualMode
-import com.example.train_speed.modes.MicrophoneMode
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.modes.*
 import com.example.train_speed.permission.PermissionCheck
 
 class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
@@ -61,6 +58,12 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
             }
             MeasureMode.AUTO -> {
                 selectedMeasureMode = MeasureMode.AUTO
+            }
+            MeasureMode.GPS -> {
+                selectedMeasureMode = MeasureMode.GPS
+                measureMode = GPSMode(context)
+                measureMode.setUp {}
+                trainSpeed = getSpeed()
             }
         }
     }
