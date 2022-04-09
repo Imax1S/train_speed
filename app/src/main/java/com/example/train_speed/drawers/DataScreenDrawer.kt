@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -28,14 +30,15 @@ class DataScreenDrawer(
     fun DataScreen() {
 
         val measurements by dataScreenViewModel.items.observeAsState()
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(padding),
-            horizontalAlignment = Alignment.Start,
+                .padding(bottom = 66.dp, top = padding),
+            horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            measurements?.forEach { measurement ->
+
+            items(measurements ?: listOf()) { measurement ->
                 MeasurementRow(measurement)
             }
         }
