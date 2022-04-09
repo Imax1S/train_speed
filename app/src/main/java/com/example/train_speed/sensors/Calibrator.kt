@@ -9,8 +9,11 @@ class Calibrator(
     val acc: XYZAccelerometer?,
     val eventNumber: Int
 ) {
-    val UPDATE_INTERVAL = 1000L
-    val ITERATIONS = 5
+    companion object {
+        const val UPDATE_INTERVAL = 1000L
+        const val ITERATIONS = 5
+    }
+
     private var calData: LinkedList<Point>? = null
 
 

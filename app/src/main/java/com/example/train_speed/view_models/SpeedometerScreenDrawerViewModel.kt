@@ -81,7 +81,7 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
         return measureMode.countSpeed()
     }
 
-    fun saveMeasurement(measurement: SpeedMeasurement) {
+    private fun saveMeasurement(measurement: SpeedMeasurement) {
         Log.d("TAGA", "save measure")
         databaseRepository.addMeasurement(measurement)
     }

@@ -25,38 +25,39 @@ class MeasureData(interval: Long) {
     }
 
     fun process() {
-//        for (i in 0 until accData.size) {
-//            val p = accData[i]
-//            var speed = 0f
-//
-//            if (i > 0) {
-//                speed = data[i - 1].speedAfter.toFloat()
-//            }
-//            data.add(MeasurePoint(p.x, p.y, p.z, speed, interval, getAveragePoint()))
-//        }
+        for (i in 0 until accData.size) {
+            val p = accData[i]
+            var speed = 0f
+
+            if (i > 0) {
+                speed = data[i - 1].speedAfter.toFloat()
+            }
+            data.add(MeasurePoint(p.x, p.y, p.z, speed, interval, getAveragePoint()))
+        }
     }
 
-    @Throws(Throwable::class)
-    fun saveExt(con: Context, fname: String?): Boolean {
-        try {
-            val file = File(con.getExternalFilesDir(null), fname)
-            val os = FileOutputStream(file)
-            val out = OutputStreamWriter(os)
-            for (i in data.indices) {
-                val m = data[i]
-                out.write(m.getStoreString())
-            }
-            out.close()
-        } catch (t: Throwable) {
-            throw t
-        }
-        return true
-    }
+//    @Throws(Throwable::class)
+//    fun saveExt(con: Context, fname: String?): Boolean {
+//        try {
+//            val file = File(con.getExternalFilesDir(null), fname)
+//            val os = FileOutputStream(file)
+//            val out = OutputStreamWriter(os)
+//            for (i in data.indices) {
+//                val m = data[i]
+//                out.write(m.getStoreString())
+//            }
+//            out.close()
+//        } catch (t: Throwable) {
+//            throw t
+//        }
+//        return true
+//    }
 
     private fun getAveragePoint(): Point {
         var x = 0f
         var y = 0f
         var z = 0f
+
         for (i in accData.indices) {
             val (x1, y1, z1) = accData[i]
             x += x1
@@ -71,7 +72,7 @@ class MeasureData(interval: Long) {
     }
 
     fun getCurrentSpeed(): Int {
-        return ((data.sumOf { it.speedAfter } / data.size) * 36).toInt()
+        return ((data.sumOf { it.speedAfter } / data.size) / 3600).toInt()
     }
 
     fun getLastSpeedKm(): Int {

@@ -86,7 +86,7 @@ class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) 
                     )
                 }
                 IN_PROGRESS -> {
-                    val currentSpeedNumber = mdXYZ?.getCurrentSpeed().toString()
+                    val currentSpeedNumber = mdXYZ?.getLastSpeedKm().toString()
 
                     data.add(currentSpeedNumber)
                     currentSpeed.value = "$currentSpeedNumber km/h"
