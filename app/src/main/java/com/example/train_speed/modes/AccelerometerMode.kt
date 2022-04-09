@@ -9,8 +9,8 @@ import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
 import java.util.*
 
-class AccelerometerMode(context: Context, val onFinish: (SpeedMeasurement) -> Unit) : IMeasureMode {
-    private val accelerometer = AccelerometerPresenter(context, onFinish)
+class AccelerometerMode(val context: Context, val onFinish: (SpeedMeasurement) -> Unit) : IMeasureMode {
+    private var accelerometer = AccelerometerPresenter(context, onFinish)
     private val hintText = context.getString(R.string.accelerometer_hint)
 
     override fun getHintText(): String {
@@ -25,17 +25,20 @@ class AccelerometerMode(context: Context, val onFinish: (SpeedMeasurement) -> Un
         return accelerometer.currentSpeed
     }
 
-    private fun reset() {
+    private fun finish() {
         val newMeasurement = SpeedMeasurement(
             title = "Accelerometer Measure",
             date = Date(),
             avgSpeed = accelerometer.currentSpeed.value
         )
         onFinish(newMeasurement)
+
+        accelerometer.currentSpeed.value = "..."
+        accelerometer = AccelerometerPresenter(context, onFinish)
     }
 
     @Composable
     override fun Display() {
-        AccSpeedometer({ accelerometer.onButtonClicked() }, { reset() })
+        AccSpeedometer({ accelerometer.onButtonClicked() }, { finish() })
     }
 }

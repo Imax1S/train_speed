@@ -11,17 +11,33 @@ import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
 
 @Composable
-fun ManualSpeedometer(onButtonClick: () -> Unit) {
+fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
+
+    var isStarted by remember { mutableStateOf(false) }
     Button(
         modifier = Modifier
             .padding(vertical = 24.dp)
-            .width(120.dp)
+            .width(160.dp)
             .height(70.dp),
         onClick = {
+            isStarted = true
             onButtonClick.invoke()
         }
     ) {
-        Text(text = "Tap!")
+        Text(
+            text = if (isStarted)
+                stringResource(R.string.tap)
+            else
+                stringResource(id = R.string.start_measure)
+        )
+    }
+
+    if (isStarted) {
+        Button(onClick = {
+            finish.invoke()
+        }) {
+            Text(text = stringResource(id = R.string.stop))
+        }
     }
 }
 
@@ -47,7 +63,7 @@ fun AccSpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit) {
                 onResetClicked()
             }
         ) {
-            Text(text = stringResource(id = R.string.reset))
+            Text(text = stringResource(id = R.string.stop))
         }
     }
 }
@@ -68,6 +84,10 @@ fun MicroSpeedometer(
         )
     }
 
+    var isFinished by remember {
+        mutableStateOf(false)
+    }
+
     Row {
         Button(
             enabled = !recordIsStarted,
@@ -76,6 +96,7 @@ fun MicroSpeedometer(
                 onStartClick.invoke()
                 recordIsStarted = true
                 isRecording = true
+                isFinished = false
             }
         ) {
             Text(text = stringResource(id = R.string.micro_start))
@@ -100,9 +121,14 @@ fun MicroSpeedometer(
             onClick = {
                 recordIsStarted = false
                 isRecording = false
+                isFinished = true
                 onStopClick.invoke()
             }) {
             Text(text = stringResource(id = R.string.stop))
         }
+    }
+
+    if (isFinished) {
+        Text(text = "Speed: ...")
     }
 }

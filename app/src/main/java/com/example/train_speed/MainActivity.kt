@@ -35,7 +35,6 @@ class MainActivity : ComponentActivity() {
 
         DatabaseRepository.initialize(this)
 
-        val startTime = Calendar.getInstance().timeInMillis
         speedometerViewModel.permissionCheck.requestPermissions(this)
         setContent {
             Train_speedTheme {

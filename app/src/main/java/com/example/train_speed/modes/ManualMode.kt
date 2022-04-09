@@ -19,6 +19,7 @@ class ManualMode(
     private val onFinish: (SpeedMeasurement) -> Unit
 ) :
     IMeasureMode {
+    private lateinit var timer: CountDownTimer
     private val hintText = context.getString(R.string.manual_hint)
     private var trainSpeed = MutableLiveData("...")
     private var isStart = true
@@ -29,7 +30,7 @@ class ManualMode(
 
     companion object {
         const val INTERVAL = 100L
-        const val TIMER_LONG = 10000L
+        const val TIMER_LONG = 100000L
     }
 
     override fun getHintText(): String {
@@ -49,7 +50,7 @@ class ManualMode(
             railsBehind = 0
             isStart = false
 
-            val timer = object : CountDownTimer(TIMER_LONG, INTERVAL) {
+            timer = object : CountDownTimer(TIMER_LONG, INTERVAL) {
                 override fun onTick(millisUntilFinished: Long) {
                     secondsFromToock += INTERVAL
                     averageSpeed =
@@ -78,12 +79,11 @@ class ManualMode(
                 measurements = data.toList()
             )
 
-        Log.d("TAGA", data.toString())
-
         onFinish(speedMeasurement)
 
+        timer.cancel()
         isStart = true
-        trainSpeed.value = "0"
+        trainSpeed.value = "..."
         railsBehind = 0
         secondsFromToock = 0
         data.clear()
@@ -92,6 +92,6 @@ class ManualMode(
 
     @Composable
     override fun Display() {
-        ManualSpeedometer { measureSpeed() }
+        ManualSpeedometer( ::measureSpeed, ::resetTimer)
     }
 }
