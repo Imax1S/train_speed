@@ -143,6 +143,7 @@ class SpeedometerScreenDrawer(private val speedometerScreenDrawerViewModel: Spee
             MeasureMode.MANUAL -> speedometerScreenDrawerViewModel.DrawMode()
             MeasureMode.ACCELEROMETER -> speedometerScreenDrawerViewModel.DrawMode()
             MeasureMode.MICROPHONE -> speedometerScreenDrawerViewModel.DrawMode()
+            MeasureMode.AUTO -> speedometerScreenDrawerViewModel.DrawMode()
             else -> {}
         }
     }

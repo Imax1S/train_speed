@@ -132,3 +132,32 @@ fun MicroSpeedometer(
         Text(text = "Speed: ...")
     }
 }
+
+
+@Composable
+fun AutoSpeedometer(
+    onButtonClick: () -> Unit, finish: () -> Unit
+) {
+    var isStarted by remember { mutableStateOf(false) }
+
+    if (!isStarted) {
+        Button(
+            modifier = Modifier
+                .padding(vertical = 24.dp)
+                .width(160.dp)
+                .height(70.dp),
+            onClick = {
+                isStarted = true
+                onButtonClick.invoke()
+            }
+        ) {
+            Text(text = stringResource(id = R.string.start_measure))
+        }
+    } else {
+        Button(onClick = {
+            finish.invoke()
+        }) {
+            Text(text = stringResource(id = R.string.stop))
+        }
+    }
+}
