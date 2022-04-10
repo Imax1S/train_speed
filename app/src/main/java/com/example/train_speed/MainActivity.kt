@@ -1,5 +1,6 @@
 package com.example.train_speed
 
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -23,7 +24,6 @@ import com.example.train_speed.ui.theme.Train_speedTheme
 import com.example.train_speed.utils.Prefs
 import com.example.train_speed.view_models.DataScreenViewModel
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
-import java.util.*
 
 
 val prefs: Prefs by lazy {
@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             Train_speedTheme {
                 Surface(color = MaterialTheme.colors.background) {
-                    DrawMainScreen(speedometerViewModel, dataScreenViewModel)
+                    DrawMainScreen(speedometerViewModel, dataScreenViewModel, applicationContext)
                 }
             }
         }
@@ -62,7 +62,8 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DrawMainScreen(
     speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel,
-    dataScreenViewModel: DataScreenViewModel
+    dataScreenViewModel: DataScreenViewModel,
+    applicationContext: Context
 ) {
     val params: State<InputData?> = speedometerScreenDrawerViewModel.params.observeAsState()
 
@@ -106,7 +107,8 @@ fun DrawMainScreen(
             composable(TabScreensEnum.Data.name) {
                 DataScreenDrawer(
                     navController,
-                    dataScreenViewModel
+                    dataScreenViewModel,
+                    applicationContext
                 ).DataScreen()
             }
             composable("chart_screen") {

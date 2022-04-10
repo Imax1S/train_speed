@@ -1,5 +1,6 @@
 package com.example.train_speed.drawers
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -22,7 +23,9 @@ import com.example.train_speed.MeasureMode
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import com.example.train_speed.model.InputData
 
-class SpeedometerScreenDrawer(private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel) {
+class SpeedometerScreenDrawer(
+    private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel
+) {
     private val padding = 16.dp
 
     //Main screen drawer

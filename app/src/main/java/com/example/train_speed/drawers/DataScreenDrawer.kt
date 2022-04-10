@@ -1,5 +1,6 @@
 package com.example.train_speed.drawers
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -18,14 +19,18 @@ import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.utils.ExportMeasurement
 import com.example.train_speed.utils.navigate
 import com.example.train_speed.view_models.DataScreenViewModel
 
 class DataScreenDrawer(
-    val navigationController: NavController,
-    private val dataScreenViewModel: DataScreenViewModel
+    private val navigationController: NavController,
+    private val dataScreenViewModel: DataScreenViewModel,
+    context: Context
 ) {
     private val padding = 16.dp
+    val exportMeasurement = ExportMeasurement(context)
+
 
     @Composable
     fun DataScreen() {
@@ -76,8 +81,8 @@ class DataScreenDrawer(
                 "file upload",
                 Modifier
                     .clickable {
-                //TODO export as csv
-            })
+                        exportMeasurement.exportMeasurement(measurement)
+                    })
         }
 
     }
