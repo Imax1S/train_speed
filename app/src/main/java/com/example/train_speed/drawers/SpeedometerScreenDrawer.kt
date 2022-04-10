@@ -73,7 +73,7 @@ class SpeedometerScreenDrawer(private val speedometerScreenDrawerViewModel: Spee
         var expandedMenuView by remember { mutableStateOf(false) }
         var showHint by remember { mutableStateOf(false) }
         var selectedMode by rememberSaveable {
-            mutableStateOf(MeasureMode.MANUAL)
+            mutableStateOf(speedometerScreenDrawerViewModel.selectedMeasureMode)
         }
         val context = LocalContext.current
 

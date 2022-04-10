@@ -35,7 +35,7 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
         )
 
     var trainSpeed = getSpeed()
-    private var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
+    var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
     val permissionCheck = PermissionCheck()
 
     fun changeMode(newMode: MeasureMode, context: Context) {
