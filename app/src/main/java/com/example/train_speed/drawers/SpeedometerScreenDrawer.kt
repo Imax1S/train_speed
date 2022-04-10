@@ -1,6 +1,5 @@
 package com.example.train_speed.drawers
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -20,8 +19,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.train_speed.MeasureMode
-import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import com.example.train_speed.model.InputData
+import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 
 class SpeedometerScreenDrawer(
     private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel
