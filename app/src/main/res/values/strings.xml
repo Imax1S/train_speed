@@ -5,6 +5,8 @@
     <string name="accelerometer_hint">This is an accelerometer mode.
         It uses phone\'s sensor to measure the acceleration and then calculates the speed</string>
     <string name="microphone_hint">This is a microphone mode. It uses phone\'s micro to count tooks</string>
+    <string name="gravity_hint">This is a gravity mode. It counts vertical changes of phone position.
+        So, basically it works as a manual mode, but it counts tooks in other way</string>
     <string name="gps_hint">This is a simple gps. It is used for comparison with other modes</string>
 
     <string name="empty_data_screen">You do not have measurements yet</string>
