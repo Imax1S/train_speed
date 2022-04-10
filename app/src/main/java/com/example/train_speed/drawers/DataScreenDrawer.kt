@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
+import com.example.train_speed.R
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
@@ -36,18 +38,32 @@ class DataScreenDrawer(
     fun DataScreen() {
 
         val measurements by dataScreenViewModel.items.observeAsState()
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(bottom = 66.dp, top = padding, start = 16.dp, end = 16.dp),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.Top
-        ) {
 
-            items(measurements ?: listOf()) { measurement ->
-                MeasurementRow(measurement)
+        if (measurements?.size ?: 0 > 0) {
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 66.dp, top = padding, start = 16.dp, end = 16.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top
+            ) {
+
+                items(measurements ?: listOf()) { measurement ->
+                    MeasurementRow(measurement)
+                }
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(bottom = 66.dp, top = padding, start = 16.dp, end = 16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Text(text = stringResource(id = R.string.empty_data_screen))
             }
         }
+
     }
 
     @Composable
