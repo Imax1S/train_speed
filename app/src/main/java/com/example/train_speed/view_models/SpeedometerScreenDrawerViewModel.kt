@@ -7,18 +7,25 @@ import androidx.compose.runtime.Composable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.train_speed.MainActivity
 import com.example.train_speed.MeasureMode
 import com.example.train_speed.database.DatabaseRepository
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.modes.*
 import com.example.train_speed.permission.PermissionCheck
+import com.example.train_speed.utils.Prefs
 
 class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
-    private var _params = MutableLiveData(InputData(25))
+    private var _params = MutableLiveData(
+        InputData(
+            MainActivity.prefs?.savedRailLength ?: 25,
+            MainActivity.prefs?.savedDistanceBetweenCarriages ?: 1.5
+        )
+    )
+
     private val databaseRepository = DatabaseRepository.get()
 
-    // state
     val params: LiveData<InputData> = _params
     private var measureMode: IMeasureMode =
         ManualMode(

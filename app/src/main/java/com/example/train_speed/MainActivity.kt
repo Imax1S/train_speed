@@ -20,11 +20,22 @@ import com.example.train_speed.drawers.*
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.ui.theme.Train_speedTheme
+import com.example.train_speed.utils.Prefs
 import com.example.train_speed.view_models.DataScreenViewModel
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 import java.util.*
 
+
+val prefs: Prefs by lazy {
+    MainActivity.prefs!!
+}
+
 class MainActivity : ComponentActivity() {
+    companion object {
+        var prefs: Prefs? = null
+        lateinit var instance: MainActivity
+            private set
+    }
 
     private val speedometerViewModel by viewModels<SpeedometerScreenDrawerViewModel>()
     private val dataScreenViewModel by viewModels<DataScreenViewModel>()
@@ -34,6 +45,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         DatabaseRepository.initialize(this)
+        instance = this
+        prefs = Prefs(applicationContext)
 
         speedometerViewModel.permissionCheck.requestPermissions(this)
         setContent {
