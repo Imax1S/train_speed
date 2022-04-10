@@ -5,6 +5,7 @@
         It uses phone\'s sensor to measure the acceleration and then calculates the speed</string>
     <string name="microphone_hint">This is a microphone mode. It uses phone\'s micro to count tooks</string>
     <string name="rail_length">Rail length:</string>
+    <string name="distance_between_carriages">Distance Between Carriages:</string>
     <string name="micro_start">Start</string>
     <string name="start_measure">Start measure!</string>
     <string name="pause">Pause</string>
