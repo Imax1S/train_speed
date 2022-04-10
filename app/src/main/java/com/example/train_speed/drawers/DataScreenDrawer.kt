@@ -1,13 +1,14 @@
 package com.example.train_speed.drawers
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -33,8 +34,8 @@ class DataScreenDrawer(
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(bottom = 66.dp, top = padding),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(bottom = 66.dp, top = padding, start = 16.dp, end = 16.dp),
+            horizontalAlignment = Alignment.Start,
             verticalArrangement = Arrangement.Top
         ) {
 
@@ -48,22 +49,36 @@ class DataScreenDrawer(
     fun MeasurementRow(measurement: SpeedMeasurement) {
         val date = measurement.date
 
-        Button(
-            modifier = Modifier
-                .padding(vertical = 8.dp),
-            onClick = {
-                navigationController.navigate(
-                    "chart_screen",
-                    bundleOf("CHART_KEY" to measurement)
-                )
-            }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(
+            Button(
+                modifier = Modifier
+                    .padding(vertical = 8.dp)
+                    .padding(end = 8.dp)
+                    .width(350.dp),
+                onClick = {
+                    navigationController.navigate(
+                        "chart_screen",
+                        bundleOf("CHART_KEY" to measurement)
+                    )
+                }
             ) {
-                Text(text = measurement.title)
-                Text(text = "Avr. Speed: ${measurement.avgSpeed}")
-                Text(text = "Date: $date")
+                Column(
+                ) {
+                    Text(text = measurement.title)
+                    Text(text = "Avr. Speed: ${measurement.avgSpeed}")
+                    Text(text = "Date: $date")
+                }
             }
+
+            Icon(Icons.Outlined.FileUpload,
+                "file upload",
+                Modifier
+                    .clickable {
+                //TODO export as csv
+            })
         }
+
     }
 }
