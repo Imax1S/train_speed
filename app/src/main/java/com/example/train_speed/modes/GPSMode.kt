@@ -5,14 +5,16 @@ import android.content.Context
 import android.location.LocationManager
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
+import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.sensors.GPSListener
 
 class GPSMode(val context: Context) : IMeasureMode {
     private val gpsListener = GPSListener(context)
+    private val hintText = context.getString(R.string.gps_hint)
 
     override fun getHintText(): String {
-        TODO("Not yet implemented")
+        return hintText
     }
 
     @SuppressLint("MissingPermission")
