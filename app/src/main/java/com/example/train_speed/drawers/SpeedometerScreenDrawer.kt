@@ -145,6 +145,7 @@ class SpeedometerScreenDrawer(
             MeasureMode.MANUAL -> speedometerScreenDrawerViewModel.DrawMode()
             MeasureMode.ACCELEROMETER -> speedometerScreenDrawerViewModel.DrawMode()
             MeasureMode.MICROPHONE -> speedometerScreenDrawerViewModel.DrawMode()
+            MeasureMode.GRAVITY -> speedometerScreenDrawerViewModel.DrawMode()
             MeasureMode.AUTO -> speedometerScreenDrawerViewModel.DrawMode()
             else -> {}
         }

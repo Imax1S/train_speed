@@ -4,26 +4,36 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import com.example.train_speed.R
+import com.example.train_speed.drawers.GravitySpeedometer
+import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.sensors.GravitySensorPresenter
 
-class GravityMode(context: Context) : IMeasureMode {
+class GravityMode(
+    val context: Context,
+    val inputData: InputData,
+    val onFinish: (SpeedMeasurement) -> Unit
+) : IMeasureMode {
     private val hintText = context.getString(R.string.gravity_hint)
 
+    private var gravitySensorPresenter = GravitySensorPresenter(context, inputData, onFinish)
 
     override fun getHintText(): String {
-       return hintText
+        return hintText
     }
 
     override fun setUp(onFinish: (SpeedMeasurement) -> Unit) {
-        TODO("Not yet implemented")
+        gravitySensorPresenter.setupGravitySensor()
     }
 
     override fun countSpeed(): LiveData<String> {
-        TODO("Not yet implemented")
+        return gravitySensorPresenter.trainSpeed
     }
 
     @Composable
     override fun Display() {
-        TODO("Not yet implemented")
+        GravitySpeedometer(
+            { gravitySensorPresenter.startMeasure() },
+            { gravitySensorPresenter.resetTimer() })
     }
 }

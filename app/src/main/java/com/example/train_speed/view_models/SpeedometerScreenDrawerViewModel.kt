@@ -61,6 +61,13 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
             }
             MeasureMode.GRAVITY -> {
                 selectedMeasureMode = MeasureMode.GRAVITY
+                measureMode = GravityMode(
+                    context,
+                    params.value ?: return,
+                    ::saveMeasurement
+                )
+                measureMode.setUp {}
+                trainSpeed = getSpeed()
 
             }
             MeasureMode.AUTO -> {
