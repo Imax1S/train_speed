@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.train_speed.R
-import com.example.train_speed.model.SpeedMeasurement
 
 @Composable
 fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
@@ -158,7 +157,7 @@ fun GravitySpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit){
 
 @Composable
 fun AutoSpeedometer(
-    onButtonClick: () -> Unit, finish: () -> Unit
+    onStart: () -> Unit, onFinish: () -> Unit
 ) {
     var isStarted by remember { mutableStateOf(false) }
 
@@ -170,14 +169,14 @@ fun AutoSpeedometer(
                 .height(70.dp),
             onClick = {
                 isStarted = true
-                onButtonClick.invoke()
+                onStart.invoke()
             }
         ) {
             Text(text = stringResource(id = R.string.start_measure))
         }
     } else {
         Button(onClick = {
-            finish.invoke()
+            onFinish.invoke()
         }) {
             Text(text = stringResource(id = R.string.stop))
         }
