@@ -14,7 +14,6 @@ import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.modes.*
 import com.example.train_speed.permission.PermissionCheck
-import com.example.train_speed.utils.Prefs
 
 class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
     private var _params = MutableLiveData(
@@ -53,7 +52,7 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
             MeasureMode.MICROPHONE -> {
                 if (permissionCheck.permissionGranted) {
                     selectedMeasureMode = MeasureMode.MICROPHONE
-                    measureMode = MicrophoneMode(context)
+                    measureMode = MicrophoneMode(context, params.value ?: return, ::saveMeasurement)
                     trainSpeed = getSpeed()
                 } else {
                     permissionCheck.requestPermissions(context)

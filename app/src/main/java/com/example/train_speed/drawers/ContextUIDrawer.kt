@@ -127,10 +127,6 @@ fun MicroSpeedometer(
             Text(text = stringResource(id = R.string.stop))
         }
     }
-
-    if (isFinished) {
-        Text(text = "Speed: ...")
-    }
 }
 
 @Composable
