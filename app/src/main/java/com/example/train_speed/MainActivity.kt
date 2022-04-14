@@ -28,11 +28,6 @@ import com.example.train_speed.utils.Prefs
 import com.example.train_speed.view_models.DataScreenViewModel
 import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 
-
-val prefs: Prefs by lazy {
-    MainActivity.prefs!!
-}
-
 class MainActivity : ComponentActivity() {
     companion object {
         var prefs: Prefs? = null
@@ -52,8 +47,11 @@ class MainActivity : ComponentActivity() {
         prefs = Prefs(applicationContext)
 
         speedometerViewModel.permissionCheck.requestPermissions(this)
+
         setContent {
-            Train_speedTheme {
+            val darkMode = speedometerViewModel.darkMode.observeAsState()
+
+            Train_speedTheme(darkTheme = darkMode.value ?: false) {
                 Surface(color = MaterialTheme.colors.background) {
                     DrawMainScreen(speedometerViewModel, dataScreenViewModel, applicationContext)
                 }
@@ -105,7 +103,7 @@ fun DrawMainScreen(
         }
     ) {
         NavHost(startDestination = TabScreensEnum.Measure.name, navController = navController) {
-            composable(TabScreensEnum.Params.name) { ParamsScreenDrawer().ParamsScreen(params) }
+            composable(TabScreensEnum.Params.name) { ParamsScreenDrawer(speedometerScreenDrawerViewModel).ParamsScreen(params) }
             composable(TabScreensEnum.Measure.name) { screenDrawer.SpeedometerScreen(params) }
             composable(TabScreensEnum.Data.name) {
                 DataScreenDrawer(

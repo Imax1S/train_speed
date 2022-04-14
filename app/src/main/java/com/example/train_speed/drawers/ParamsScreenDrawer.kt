@@ -2,6 +2,8 @@ package com.example.train_speed.drawers
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Switch
+import androidx.compose.material.SwitchDefaults
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
@@ -14,8 +16,11 @@ import androidx.compose.ui.unit.dp
 import com.example.train_speed.MainActivity
 import com.example.train_speed.R
 import com.example.train_speed.model.InputData
+import com.example.train_speed.ui.theme.Gray
+import com.example.train_speed.ui.theme.LightGray
+import com.example.train_speed.view_models.SpeedometerScreenDrawerViewModel
 
-class ParamsScreenDrawer {
+class ParamsScreenDrawer(private val speedometerScreenDrawerViewModel: SpeedometerScreenDrawerViewModel) {
     private val padding = 16.dp
 
     @Composable
@@ -40,6 +45,10 @@ class ParamsScreenDrawer {
 
         var distanceBetweenCarriages by rememberSaveable {
             mutableStateOf(params.value?.distanceBetweenCarriages)
+        }
+
+        var darkMode by rememberSaveable {
+            mutableStateOf(params.value?.darkMode)
         }
 
 
@@ -80,5 +89,17 @@ class ParamsScreenDrawer {
                 .wrapContentWidth()
                 .padding(8.dp)
         )
+
+        Text(text = if (darkMode == true) "Dark Theme" else "Light Theme")
+        Switch(checked = darkMode ?: false, colors = SwitchDefaults.colors(
+            checkedThumbColor = LightGray,
+            checkedTrackColor = LightGray,
+            uncheckedThumbColor = Gray,
+            uncheckedTrackColor = Gray
+        ), onCheckedChange = {
+            darkMode = !(darkMode ?: false)
+            speedometerScreenDrawerViewModel.onThemeChanged(darkMode ?: false)
+            MainActivity.prefs?.savedDarkMode = darkMode ?: false
+        })
     }
 }

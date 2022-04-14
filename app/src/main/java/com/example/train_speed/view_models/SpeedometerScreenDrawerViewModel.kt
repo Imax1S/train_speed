@@ -16,14 +16,15 @@ import com.example.train_speed.modes.*
 import com.example.train_speed.permission.PermissionCheck
 
 class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewModel(application) {
+    private val databaseRepository = DatabaseRepository.get()
+
     private var _params = MutableLiveData(
         InputData(
             MainActivity.prefs?.savedRailLength ?: 25,
-            MainActivity.prefs?.savedDistanceBetweenCarriages ?: 1.5
+            MainActivity.prefs?.savedDistanceBetweenCarriages ?: 1.5,
+            MainActivity.prefs?.savedDarkMode ?: false
         )
     )
-
-    private val databaseRepository = DatabaseRepository.get()
 
     val params: LiveData<InputData> = _params
     private var measureMode: IMeasureMode =
@@ -36,6 +37,12 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
     var trainSpeed = getSpeed()
     var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
     val permissionCheck = PermissionCheck()
+    var darkMode = MutableLiveData(false)
+
+    fun onThemeChanged(darkMode: Boolean) {
+        this.darkMode.value = darkMode
+        params.value?.darkMode = darkMode
+    }
 
     fun changeMode(newMode: MeasureMode, context: Context) {
         when (newMode) {
