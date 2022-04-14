@@ -4,14 +4,14 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import com.example.train_speed.drawers.AccSpeedometer
-import com.example.train_speed.AccelerometerPresenter
+import com.example.train_speed.sensors.presenters.AccelerometerSensorPresenter
 import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
 import java.util.*
 
 class AccelerometerMode(val context: Context, val onFinish: (SpeedMeasurement) -> Unit) :
     IMeasureMode {
-    private var accelerometer = AccelerometerPresenter(context, onFinish)
+    private var accelerometer = AccelerometerSensorPresenter(context, onFinish)
     private val hintText = context.getString(R.string.accelerometer_hint)
 
     override fun getHintText(): String {
@@ -34,7 +34,7 @@ class AccelerometerMode(val context: Context, val onFinish: (SpeedMeasurement) -
         onFinish(newMeasurement)
 
         accelerometer.trainSpeedText.value = "..."
-        accelerometer = AccelerometerPresenter(context, onFinish)
+        accelerometer = AccelerometerSensorPresenter(context, onFinish)
     }
 
     @Composable

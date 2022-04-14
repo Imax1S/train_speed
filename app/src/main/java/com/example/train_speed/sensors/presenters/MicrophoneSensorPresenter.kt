@@ -1,4 +1,4 @@
-package com.example.train_speed.sensors
+package com.example.train_speed.sensors.presenters
 
 import android.content.Context
 import android.media.MediaRecorder
@@ -12,7 +12,7 @@ import com.example.train_speed.modes.ManualMode
 import java.io.IOException
 import java.util.*
 
-class MicrophoneSensor(
+class MicrophoneSensorPresenter(
     val context: Context,
     val inputData: InputData,
     val onFinish: (SpeedMeasurement) -> Unit

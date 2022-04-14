@@ -7,7 +7,7 @@ import com.example.train_speed.R
 import com.example.train_speed.drawers.GravitySpeedometer
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
-import com.example.train_speed.sensors.GravitySensorPresenter
+import com.example.train_speed.sensors.presenters.GravitySensorPresenter
 
 class GravityMode(
     val context: Context,

@@ -1,4 +1,4 @@
-package com.example.train_speed.sensors
+package com.example.train_speed.sensors.presenters
 
 import android.content.Context
 import android.hardware.Sensor
@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.modes.ManualMode
+import com.example.train_speed.sensors.GravitySensor
 import java.util.*
 
 class GravitySensorPresenter(

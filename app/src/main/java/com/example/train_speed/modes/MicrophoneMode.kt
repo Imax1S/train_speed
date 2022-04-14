@@ -7,7 +7,7 @@ import com.example.train_speed.R
 import com.example.train_speed.drawers.MicroSpeedometer
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
-import com.example.train_speed.sensors.MicrophoneSensor
+import com.example.train_speed.sensors.presenters.MicrophoneSensorPresenter
 
 class MicrophoneMode(
     context: Context,
@@ -16,7 +16,7 @@ class MicrophoneMode(
 ) : IMeasureMode {
     private val hintText = context.getString(R.string.microphone_hint)
 
-    private val microphoneSensor = MicrophoneSensor(context, inputData, ::saveMeasure)
+    private val microphoneSensor = MicrophoneSensorPresenter(context, inputData, ::saveMeasure)
 
     override fun getHintText(): String {
         return hintText

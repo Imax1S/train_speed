@@ -1,4 +1,4 @@
-package com.example.train_speed
+package com.example.train_speed.sensors.presenters
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,7 +17,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) -> Unit) {
+class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasurement) -> Unit) {
     companion object {
 
         //status of accelerometer

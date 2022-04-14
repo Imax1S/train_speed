@@ -5,13 +5,13 @@ import android.os.CountDownTimer
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.train_speed.AccelerometerPresenter
+import com.example.train_speed.sensors.presenters.AccelerometerSensorPresenter
 import com.example.train_speed.R
 import com.example.train_speed.drawers.AutoSpeedometer
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
-import com.example.train_speed.sensors.GravitySensorPresenter
-import com.example.train_speed.sensors.MicrophoneSensor
+import com.example.train_speed.sensors.presenters.GravitySensorPresenter
+import com.example.train_speed.sensors.presenters.MicrophoneSensorPresenter
 import java.util.*
 
 class AutoMode(
@@ -22,9 +22,9 @@ class AutoMode(
     lateinit var timer: CountDownTimer
     private val hintText = context.getString(R.string.auto_hint)
     private var trainSpeed = MutableLiveData("...")
-    private var accelerometer = AccelerometerPresenter(context, onFinish)
+    private var accelerometer = AccelerometerSensorPresenter(context, onFinish)
     private var gravitySensorPresenter = GravitySensorPresenter(context, inputData, onFinish)
-    private var microphoneSensor = MicrophoneSensor(context, inputData, onFinish)
+    private var microphoneSensor = MicrophoneSensorPresenter(context, inputData, onFinish)
 
     override fun getHintText(): String {
         return hintText
