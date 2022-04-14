@@ -16,6 +16,7 @@ import com.example.train_speed.model.SpeedMeasurement
 import me.bytebeats.views.charts.line.LineChart
 import me.bytebeats.views.charts.line.LineChartData
 import me.bytebeats.views.charts.line.render.line.SolidLineDrawer
+import me.bytebeats.views.charts.line.render.point.EmptyPointDrawer
 import me.bytebeats.views.charts.line.render.point.FilledCircularPointDrawer
 import me.bytebeats.views.charts.line.render.xaxis.SimpleXAxisDrawer
 import me.bytebeats.views.charts.line.render.yaxis.SimpleYAxisDrawer
@@ -52,7 +53,7 @@ fun LineChartDrawer(speedMeasurement: SpeedMeasurement) {
                     .fillMaxSize()
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 animation = simpleChartAnimation(),
-                pointDrawer = FilledCircularPointDrawer(),
+                pointDrawer = EmptyPointDrawer,
                 lineDrawer = SolidLineDrawer(),
                 xAxisDrawer = SimpleXAxisDrawer(drawLabelEvery = 10),
                 yAxisDrawer = SimpleYAxisDrawer(
