@@ -14,16 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
-import com.example.train_speed.R
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
+import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.utils.ExportMeasurement
 import com.example.train_speed.utils.navigate
 import com.example.train_speed.view_models.DataScreenViewModel
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DataScreenDrawer(
     private val navigationController: NavController,
@@ -71,13 +73,14 @@ class DataScreenDrawer(
         val date = measurement.date
 
         Row(
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
         ) {
             Button(
                 modifier = Modifier
                     .padding(vertical = 8.dp)
-                    .padding(end = 8.dp)
-                    .width(350.dp),
+                    .padding(horizontal = 8.dp)
+                    .width(342.dp),
                 onClick = {
                     navigationController.navigate(
                         "chart_screen",
@@ -85,11 +88,17 @@ class DataScreenDrawer(
                     )
                 }
             ) {
-                Column(
-                ) {
-                    Text(text = measurement.title)
-                    Text(text = "Avr. Speed: ${measurement.avgSpeed}")
-                    Text(text = "Date: $date")
+                Box(Modifier.fillMaxSize()) {
+                    Text(
+                        text = "${measurement.title} \n" +
+                                "Avr. Speed: ${measurement.avgSpeed} \n" +
+                                "Date: ${
+                                    SimpleDateFormat(
+                                        "dd/MM/yyyy HH:mm:ss",
+                                        Locale.getDefault(Locale.Category.FORMAT)
+                                    ).format(date)
+                                }"
+                    )
                 }
             }
 
