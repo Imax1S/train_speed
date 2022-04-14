@@ -71,7 +71,7 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
             }
             MeasureMode.AUTO -> {
                 selectedMeasureMode = MeasureMode.AUTO
-                measureMode = AutoMode(context, ::saveMeasurement)
+                measureMode = AutoMode(context, ::saveMeasurement, params.value ?: return)
                 trainSpeed = getSpeed()
             }
             MeasureMode.GPS -> {

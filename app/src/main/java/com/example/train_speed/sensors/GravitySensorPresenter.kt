@@ -20,10 +20,12 @@ class GravitySensorPresenter(
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
     private lateinit var timer: CountDownTimer
-    val trainSpeed = MutableLiveData("...")
+
+    val trainSpeedText = MutableLiveData("...")
+    val trainSpeed = MutableLiveData(0)
+
     private var isStart = true
     private var secondsFromToock = 0L
-    private var averageSpeed = 0
     private val data: ArrayList<String> = arrayListOf("0")
 
     private var gravitySensor = GravitySensor()
@@ -33,11 +35,11 @@ class GravitySensorPresenter(
         timer = object : CountDownTimer(ManualMode.TIMER_LONG, ManualMode.INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 secondsFromToock += ManualMode.INTERVAL
-                averageSpeed =
+                trainSpeed.value =
                     ((inputData.railLength * (gravitySensor.tooks.value
                         ?: 2)) / (secondsFromToock / 1000.0)).toInt()
-                trainSpeed.value = "$averageSpeed km/h"
-                data.add(averageSpeed.toString())
+                trainSpeedText.value = "${trainSpeed.value} km/h"
+                data.add(trainSpeed.value.toString())
             }
 
             override fun onFinish() {
@@ -52,13 +54,13 @@ class GravitySensorPresenter(
             SpeedMeasurement(
                 title = "Gravity Measure",
                 date = Date(),
-                avgSpeed = trainSpeed.value,
+                avgSpeed = trainSpeedText.value,
                 measurements = data.toList()
             )
 
         onFinish(speedMeasurement)
         gravitySensor = GravitySensor()
-        trainSpeed.value = "..."
+        trainSpeedText.value = "..."
     }
 
     fun setupGravitySensor() {

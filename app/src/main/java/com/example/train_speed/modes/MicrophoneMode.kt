@@ -1,8 +1,6 @@
 package com.example.train_speed.modes
 
 import android.content.Context
-import android.media.MediaRecorder
-import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LiveData
 import com.example.train_speed.R
@@ -10,7 +8,6 @@ import com.example.train_speed.drawers.MicroSpeedometer
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.sensors.MicrophoneSensor
-import java.util.*
 
 class MicrophoneMode(
     context: Context,
@@ -19,25 +16,7 @@ class MicrophoneMode(
 ) : IMeasureMode {
     private val hintText = context.getString(R.string.microphone_hint)
 
-    private val microphoneSensor = MicrophoneSensor(context, inputData) { saveMeasure() }
-
-    private var output: String? = null
-    private var mediaRecorder: MediaRecorder? = null
-
-    init {
-        val date = Date().toString()
-        output = context.getExternalFilesDir(null)?.absolutePath + "/${date}_recording.mp3"
-        mediaRecorder = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            MediaRecorder(context)
-        } else {
-            MediaRecorder()
-        }
-
-        mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.MIC)
-        mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        mediaRecorder?.setOutputFile(output)
-    }
+    private val microphoneSensor = MicrophoneSensor(context, inputData, ::saveMeasure)
 
     override fun getHintText(): String {
         return hintText
@@ -48,18 +27,10 @@ class MicrophoneMode(
     }
 
     override fun countSpeed(): LiveData<String> {
-        return microphoneSensor.trainSpeed
+        return microphoneSensor.trainSpeedText
     }
 
-    private fun saveMeasure() {
-        val speedMeasurement =
-            SpeedMeasurement(
-                title = "Microphone Measure",
-                date = Date(),
-                avgSpeed = microphoneSensor.trainSpeed.value,
-                measurements = microphoneSensor.data.toList()
-            )
-
+    private fun saveMeasure(speedMeasurement: SpeedMeasurement) {
         onFinish(speedMeasurement)
     }
 

@@ -27,7 +27,7 @@ class GravityMode(
     }
 
     override fun countSpeed(): LiveData<String> {
-        return gravitySensorPresenter.trainSpeed
+        return gravitySensorPresenter.trainSpeedText
     }
 
     @Composable

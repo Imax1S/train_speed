@@ -15,7 +15,6 @@ import com.example.train_speed.sensors.Calibrator
 import com.example.train_speed.sensors.XYZAccelerometer
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.reflect.KProperty0
 
 
 class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) -> Unit) {
@@ -32,7 +31,9 @@ class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) 
         private const val MEASURE_TIMES: Long = 60
     }
 
-    var currentSpeed = MutableLiveData("...")
+    val trainSpeedText = MutableLiveData("...")
+    val trainSpeed = MutableLiveData(0)
+
     val data: ArrayList<String> = arrayListOf("0")
 
     private var xyzAcc: XYZAccelerometer? = null
@@ -49,7 +50,7 @@ class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) 
 
     fun onButtonClicked() {
         mdXYZ = MeasureData(UPDATE_INTERVAL)
-        currentSpeed.value = "Calibrating..."
+        trainSpeedText.value = "Calibrating..."
         counter = 0
         val cal = Calibrator(hRefresh, xyzAcc, START)
         cal.calibrate()
@@ -61,19 +62,18 @@ class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) 
             when (msg.what) {
                 TIMER_DONE -> {
                     onMeasureDone()
-                    val es1 = mdXYZ?.getLastSpeedKm() ?: 1 * 100 / 100f
-                    currentSpeed.value = "$es1 km/h"
+                    trainSpeedText.value = "..."
 
                     val newMeasurement = SpeedMeasurement(
                         title = "Accelerometer Measure",
                         date = Date(),
-                        avgSpeed = currentSpeed.value,
+                        avgSpeed = trainSpeedText.value,
                         measurements = data
                     )
                     onFinish(newMeasurement)
                 }
                 START -> {
-                    currentSpeed.value = "START"
+                    trainSpeedText.value = ""
                     timer = Timer()
                     timer!!.scheduleAtFixedRate(
                         object : TimerTask() {
@@ -86,10 +86,9 @@ class AccelerometerPresenter(context: Context, val onFinish: (SpeedMeasurement) 
                     )
                 }
                 IN_PROGRESS -> {
-                    val currentSpeedNumber = mdXYZ?.getLastSpeedKm().toString()
-
-                    data.add(currentSpeedNumber)
-                    currentSpeed.value = "$currentSpeedNumber km/h"
+                    trainSpeed.value = mdXYZ?.getLastSpeedKm()
+                    data.add(trainSpeed.value.toString())
+                    trainSpeedText.value = "${trainSpeed.value} km/h"
                 }
                 ERROR -> {
                 }
