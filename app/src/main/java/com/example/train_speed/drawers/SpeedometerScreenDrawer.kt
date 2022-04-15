@@ -89,7 +89,7 @@ class SpeedometerScreenDrawer(
             ) {
                 Box(
                     modifier = Modifier
-                        .background(Color.LightGray)
+
                 ) {
                     Text(text = "Selected mode: ${selectedMode.name}", Modifier
                         .clickable {

@@ -9,5 +9,6 @@
     <color name="white">#FFFFFFFF</color>
 
     //new colors
-    <color name="grey">#5B5A62</color>
+    <color name="gray">#5B5A62</color>
+    <color name="light_gray">#CFCDD7</color>
 </resources>

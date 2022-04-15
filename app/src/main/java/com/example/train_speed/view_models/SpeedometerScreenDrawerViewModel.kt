@@ -37,7 +37,7 @@ class SpeedometerScreenDrawerViewModel(application: Application) : AndroidViewMo
     var trainSpeed = getSpeed()
     var selectedMeasureMode: MeasureMode = MeasureMode.MANUAL
     val permissionCheck = PermissionCheck()
-    var darkMode = MutableLiveData(false)
+    var darkMode = MutableLiveData(params.value?.darkMode)
 
     fun onThemeChanged(darkMode: Boolean) {
         this.darkMode.value = darkMode
