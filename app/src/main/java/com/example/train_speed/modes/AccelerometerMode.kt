@@ -39,6 +39,6 @@ class AccelerometerMode(val context: Context, val onFinish: (SpeedMeasurement) -
 
     @Composable
     override fun Display() {
-        AccSpeedometer({ accelerometer.onButtonClicked() }, { finish() })
+        AccSpeedometer({ accelerometer.start() }, { finish() })
     }
 }

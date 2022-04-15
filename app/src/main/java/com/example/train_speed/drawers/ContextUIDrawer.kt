@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import com.example.train_speed.R
 
 @Composable
-fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
+fun ManualSpeedometer(onStart: () -> Unit, onFinish: () -> Unit) {
 
     var isStarted by remember { mutableStateOf(false) }
     Button(
@@ -20,7 +20,7 @@ fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
             .height(70.dp),
         onClick = {
             isStarted = true
-            onButtonClick.invoke()
+            onStart.invoke()
         }
     ) {
         Text(
@@ -33,7 +33,8 @@ fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
 
     if (isStarted) {
         Button(onClick = {
-            finish.invoke()
+            isStarted = false
+            onFinish.invoke()
         }) {
             Text(text = stringResource(id = R.string.stop))
         }
@@ -41,14 +42,14 @@ fun ManualSpeedometer(onButtonClick: () -> Unit, finish: () -> Unit) {
 }
 
 @Composable
-fun AccSpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit) {
+fun AccSpeedometer(onStart: () -> Unit, onFinish: () -> Unit) {
     var enabled by remember { mutableStateOf(true) }
     Button(
         modifier = Modifier.padding(top = 24.dp, bottom = 8.dp),
         enabled = enabled,
         onClick = {
             enabled = false
-            onStartClick.invoke()
+            onStart.invoke()
         }
     ) {
         Text(text = stringResource(id = R.string.start_measure))
@@ -59,7 +60,7 @@ fun AccSpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit) {
             modifier = Modifier.padding(bottom = 16.dp),
             onClick = {
                 enabled = true
-                onResetClicked()
+                onFinish()
             }
         ) {
             Text(text = stringResource(id = R.string.stop))
@@ -129,7 +130,7 @@ fun MicroSpeedometer(
 }
 
 @Composable
-fun GravitySpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit){
+fun GravitySpeedometer(onStart: () -> Unit, onFinish: () -> Unit){
     var isStarted by remember { mutableStateOf(false) }
 
     if (!isStarted) {
@@ -140,14 +141,15 @@ fun GravitySpeedometer(onStartClick: () -> Unit, onResetClicked: () -> Unit){
                 .height(70.dp),
             onClick = {
                 isStarted = true
-                onStartClick.invoke()
+                onStart.invoke()
             }
         ) {
             Text(text = stringResource(id = R.string.start_measure))
         }
     } else {
         Button(onClick = {
-            onResetClicked.invoke()
+            isStarted = false
+            onFinish.invoke()
         }) {
             Text(text = stringResource(id = R.string.stop))
         }
@@ -176,6 +178,7 @@ fun AutoSpeedometer(
         }
     } else {
         Button(onClick = {
+            isStarted = false
             onFinish.invoke()
         }) {
             Text(text = stringResource(id = R.string.stop))

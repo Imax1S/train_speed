@@ -10,12 +10,13 @@ import com.example.train_speed.R
 import com.example.train_speed.drawers.AutoSpeedometer
 import com.example.train_speed.model.InputData
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.sensors.Accelerometer
 import com.example.train_speed.sensors.presenters.GravitySensorPresenter
 import com.example.train_speed.sensors.presenters.MicrophoneSensorPresenter
 import java.util.*
 
 class AutoMode(
-    context: Context,
+    val context: Context,
     private val onFinish: (SpeedMeasurement) -> Unit,
     inputData: InputData
 ) : IMeasureMode {
@@ -57,14 +58,14 @@ class AutoMode(
     }
 
     private fun onStart() {
-        accelerometer.onButtonClicked()
+        accelerometer.start()
         gravitySensorPresenter.startMeasure()
         microphoneSensor.startRecording()
 
         timer.start()
     }
 
-    private fun stop() {
+    private fun finish() {
         val speedMeasurement =
             SpeedMeasurement(
                 title = "Auto Measure",
@@ -75,12 +76,14 @@ class AutoMode(
 
         trainSpeed.value = "..."
         timer.cancel()
-
+        accelerometer = AccelerometerSensorPresenter(context, onFinish)
+        gravitySensorPresenter.resetTimer()
+        microphoneSensor.stopRecording()
         onFinish(speedMeasurement)
     }
 
     @Composable
     override fun Display() {
-        AutoSpeedometer({ onStart() }, ::stop)
+        AutoSpeedometer({ onStart() }, ::finish)
     }
 }

@@ -48,7 +48,7 @@ class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasure
         setAccelerometer()
     }
 
-    fun onButtonClicked() {
+    fun start() {
         mdXYZ = MeasureData(UPDATE_INTERVAL)
         trainSpeedText.value = "Calibrating..."
         counter = 0

@@ -25,14 +25,12 @@ class GravitySensorPresenter(
     val trainSpeedText = MutableLiveData("...")
     val trainSpeed = MutableLiveData(0)
 
-    private var isStart = true
     private var secondsFromToock = 0L
     private val data: ArrayList<String> = arrayListOf("0")
 
     private var gravitySensor = GravitySensor()
 
     fun startMeasure() {
-        isStart = false
         timer = object : CountDownTimer(ManualMode.TIMER_LONG, ManualMode.INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 secondsFromToock += ManualMode.INTERVAL
@@ -60,8 +58,12 @@ class GravitySensorPresenter(
             )
 
         onFinish(speedMeasurement)
+
+        data.clear()
         gravitySensor = GravitySensor()
         trainSpeedText.value = "..."
+        timer.cancel()
+        secondsFromToock = 0
     }
 
     fun setupGravitySensor() {
