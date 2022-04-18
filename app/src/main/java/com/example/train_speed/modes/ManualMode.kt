@@ -55,7 +55,7 @@ class ManualMode(
                     secondsFromToock += INTERVAL
                     averageSpeed =
                         ((inputData.railLength * railsBehind) / (secondsFromToock / 1000.0)).toInt()
-                    trainSpeed.value = "$averageSpeed km/h"
+                    trainSpeed.value = "${(averageSpeed * 3.6).toInt()} km/h"
                     data.add(averageSpeed.toString())
                 }
 

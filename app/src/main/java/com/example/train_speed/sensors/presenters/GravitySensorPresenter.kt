@@ -37,7 +37,7 @@ class GravitySensorPresenter(
                 trainSpeed.value =
                     ((inputData.railLength * (gravitySensor.tooks.value
                         ?: 2)) / (secondsFromToock / 1000.0)).toInt()
-                trainSpeedText.value = "${trainSpeed.value} km/h"
+                trainSpeedText.value = "${(trainSpeed.value!! * 3.6).toInt()} km/h"
                 data.add(trainSpeed.value.toString())
             }
 
