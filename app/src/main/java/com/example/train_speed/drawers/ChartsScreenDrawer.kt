@@ -24,6 +24,8 @@ import me.bytebeats.views.charts.line.render.point.FilledCircularPointDrawer
 import me.bytebeats.views.charts.line.render.xaxis.SimpleXAxisDrawer
 import me.bytebeats.views.charts.line.render.yaxis.SimpleYAxisDrawer
 import me.bytebeats.views.charts.simpleChartAnimation
+import java.text.SimpleDateFormat
+import java.util.*
 
 @Composable
 fun LineChartDrawer(speedMeasurement: SpeedMeasurement) {
@@ -42,7 +44,12 @@ fun LineChartDrawer(speedMeasurement: SpeedMeasurement) {
         modifier = Modifier.padding(horizontal = 16.dp, vertical = 100.dp),
     ) {
         Text(text = speedMeasurement.title, fontSize = 20.sp)
-        Text(text = speedMeasurement.date.toString(), fontSize = 16.sp)
+        Text(text = speedMeasurement.date?.let {
+            SimpleDateFormat(
+                "dd/MM/yyyy HH:mm:ss",
+                Locale.getDefault(Locale.Category.FORMAT)
+            ).format(it)
+        } ?: "", fontSize = 16.sp)
         Card(
             modifier = Modifier
                 .fillMaxSize()
