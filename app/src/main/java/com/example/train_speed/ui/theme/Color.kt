@@ -11,3 +11,4 @@ val Teal200 = Color(0xFF03DAC5)
 //new colors
 val Gray = Color(0xFF5B5A62)
 val LightGray = Color(0xFFCFCDD7)
+val DeleteColor = Color(0xFFFF726F)

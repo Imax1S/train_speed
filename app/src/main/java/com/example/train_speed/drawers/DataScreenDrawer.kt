@@ -1,26 +1,29 @@
 package com.example.train_speed.drawers
 
 import android.content.Context
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FileUpload
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
 import com.example.train_speed.R
 import com.example.train_speed.model.SpeedMeasurement
+import com.example.train_speed.ui.theme.DeleteColor
+import com.example.train_speed.ui.theme.Gray
 import com.example.train_speed.utils.ExportMeasurement
 import com.example.train_speed.utils.navigate
 import com.example.train_speed.view_models.DataScreenViewModel
@@ -33,9 +36,10 @@ class DataScreenDrawer(
     context: Context
 ) {
     private val padding = 16.dp
-    val exportMeasurement = ExportMeasurement(context)
+    private val exportMeasurement = ExportMeasurement(context)
 
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
     fun DataScreen() {
 
@@ -50,8 +54,45 @@ class DataScreenDrawer(
                 verticalArrangement = Arrangement.Top
             ) {
 
-                items(measurements ?: listOf()) { measurement ->
-                    MeasurementRow(measurement)
+                itemsIndexed(items = measurements?.toList() ?: listOf(), key = { _, listItem ->
+                    listItem.hashCode()
+                }) { index, measurement ->
+                    val state = rememberDismissState(
+                        confirmStateChange = {
+                            if (it == DismissValue.DismissedToStart) {
+                                dataScreenViewModel.deleteMeasurement(measurement)
+                            }
+                            true
+                        }
+                    )
+
+                    SwipeToDismiss(
+                        state = state, background = {
+                            val color = when (state.dismissDirection) {
+                                DismissDirection.EndToStart -> DeleteColor
+                                DismissDirection.StartToEnd -> Gray
+                                null -> Color.Magenta
+                            }
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .background(color = color)
+                                    .padding(10.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Outlined.Delete,
+                                    contentDescription = "Delete",
+                                    tint = MaterialTheme.colors.secondary,
+                                    modifier = Modifier.align(Alignment.CenterEnd)
+                                )
+                            }
+                        },
+                        dismissContent = {
+                            SampleItem(measurement = measurement)
+                        },
+                        directions = setOf(DismissDirection.EndToStart)
+                    )
+                    Spacer(Modifier.padding(vertical = 8.dp))
                 }
             }
         } else {
@@ -68,47 +109,52 @@ class DataScreenDrawer(
 
     }
 
+    @OptIn(ExperimentalMaterialApi::class)
     @Composable
-    fun MeasurementRow(measurement: SpeedMeasurement) {
+    fun SampleItem(measurement: SpeedMeasurement) {
         val date = measurement.date
-
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Button(
-                modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .padding(horizontal = 8.dp)
-                    .width(342.dp),
-                onClick = {
+        ListItem(
+            text = {
+                Text(
+                    text = measurement.title,
+                    color = MaterialTheme.colors.secondary
+                )
+            },
+            secondaryText = {
+                Text(
+                    text = "Avr. Speed: ${measurement.avgSpeed} \n" +
+                            "Date: ${
+                                date?.let {
+                                    SimpleDateFormat(
+                                        "dd/MM/yyyy HH:mm:ss",
+                                        Locale.getDefault(Locale.Category.FORMAT)
+                                    ).format(it)
+                                }
+                            }",
+                    color = MaterialTheme.colors.secondary
+                )
+            },
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.primary)
+                .padding(vertical = 8.dp)
+                .clickable {
                     navigationController.navigate(
                         "chart_screen",
                         bundleOf("CHART_KEY" to measurement)
                     )
-                }
-            ) {
-                Box(Modifier.fillMaxSize()) {
-                    Text(
-                        text = "${measurement.title} \n" +
-                                "Avr. Speed: ${measurement.avgSpeed} \n" +
-                                "Date: ${
-                                    SimpleDateFormat(
-                                        "dd/MM/yyyy HH:mm:ss",
-                                        Locale.getDefault(Locale.Category.FORMAT)
-                                    ).format(date)
-                                }"
-                    )
-                }
+                },
+
+            trailing = {
+                Icon(
+                    imageVector = Icons.Outlined.FileUpload,
+                    "file upload",
+                    tint = MaterialTheme.colors.secondary,
+                    modifier = Modifier
+                        .clickable {
+                            exportMeasurement.exportMeasurement(measurement)
+                        })
             }
-
-            Icon(Icons.Outlined.FileUpload,
-                "file upload",
-                Modifier
-                    .clickable {
-                        exportMeasurement.exportMeasurement(measurement)
-                    })
-        }
-
+        )
     }
 }

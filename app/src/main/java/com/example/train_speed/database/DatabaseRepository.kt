@@ -49,6 +49,12 @@ class DatabaseRepository private constructor(context: Context) {
         }
     }
 
+    fun deleteMeasurement(measurement: SpeedMeasurement) {
+        executor.execute {
+            speedMeasurementDAO.deleteSpeedMeasurement(measurement)
+        }
+    }
+
     fun addMeasurement(measurement: SpeedMeasurement) {
         executor.execute{
             speedMeasurementDAO.insertSpeedMeasurement(measurement)

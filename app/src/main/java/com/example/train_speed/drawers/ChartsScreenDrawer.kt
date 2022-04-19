@@ -58,7 +58,7 @@ fun LineChartDrawer(speedMeasurement: SpeedMeasurement) {
                     .padding(horizontal = 16.dp, vertical = 16.dp),
                 animation = simpleChartAnimation(),
                 pointDrawer = EmptyPointDrawer,
-                lineDrawer = SolidLineDrawer(color = MaterialTheme.colors.secondary),
+                lineDrawer = SolidLineDrawer(color = MaterialTheme.colors.primary),
                 xAxisDrawer = SimpleXAxisDrawer(
                     drawLabelEvery = 10,
                     labelTextColor = MaterialTheme.colors.primary,
