@@ -32,7 +32,7 @@ class AccelerometerMode(val context: Context, val onFinish: (SpeedMeasurement) -
             avgSpeed = accelerometer.trainSpeedText.value
         )
         onFinish(newMeasurement)
-
+        accelerometer.stop()
         accelerometer.trainSpeedText.value = "..."
         accelerometer = AccelerometerSensorPresenter(context, onFinish)
     }

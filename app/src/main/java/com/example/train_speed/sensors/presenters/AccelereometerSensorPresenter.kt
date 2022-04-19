@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.train_speed.model.MeasureData
 import com.example.train_speed.model.SpeedMeasurement
 import com.example.train_speed.sensors.Calibrator
+import com.example.train_speed.sensors.NewAccelerometer
 import com.example.train_speed.sensors.XYZAccelerometer
 import java.util.*
 import kotlin.collections.ArrayList
@@ -37,6 +38,7 @@ class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasure
     val data: ArrayList<String> = arrayListOf("0")
 
     private var xyzAcc: XYZAccelerometer? = null
+    private var newAccelerometer: NewAccelerometer? = null
     private var mSensorManager: SensorManager =
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
@@ -44,11 +46,8 @@ class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasure
     private var counter = 0
     private var mdXYZ: MeasureData? = null
 
-    init {
-        setAccelerometer()
-    }
-
     fun start() {
+        setAccelerometer()
         mdXYZ = MeasureData(UPDATE_INTERVAL)
         trainSpeedText.value = "Calibrating..."
         counter = 0
@@ -86,7 +85,7 @@ class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasure
                     )
                 }
                 IN_PROGRESS -> {
-                    trainSpeed.value = mdXYZ?.getLastSpeedKm()
+                    trainSpeed.value = newAccelerometer?.getLastSpeed()
                     data.add(trainSpeed.value.toString())
                     trainSpeedText.value = "${trainSpeed.value} km/h"
                 }
@@ -120,10 +119,16 @@ class AccelerometerSensorPresenter(context: Context, val onFinish: (SpeedMeasure
 
     private fun setAccelerometer() {
         xyzAcc = XYZAccelerometer()
+        newAccelerometer = NewAccelerometer()
+
         mSensorManager.registerListener(
-            xyzAcc,
-            mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+            newAccelerometer,
+            mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION),
             SensorManager.SENSOR_DELAY_UI
         )
+    }
+
+    fun stop() {
+        mSensorManager.unregisterListener(newAccelerometer)
     }
 }

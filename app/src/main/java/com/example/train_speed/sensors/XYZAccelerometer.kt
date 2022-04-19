@@ -2,13 +2,16 @@ package com.example.train_speed.sensors
 
 import android.hardware.SensorEvent
 import com.example.train_speed.model.Point
+import java.lang.Math.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class XYZAccelerometer : Accelerometer() {
     private val BUFFER_SIZE = 500
 
     // calibration
     private val dX = 0f
-    private val dY = -9.78f
+    private val dY = 0f
     private val dZ = 0f
 
     // buffer variables

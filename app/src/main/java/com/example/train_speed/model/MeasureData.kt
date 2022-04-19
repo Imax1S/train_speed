@@ -21,7 +21,7 @@ class MeasureData(interval: Long) {
 //        if (data.size > 0) {
 //            speed = data.last.speedAfter.toFloat()
 //        }
-        data.add(MeasurePoint(p.x, p.y, p.z, speed, interval, getAveragePoint()))
+//        data.add(MeasurePoint(p.x, p.y, p.z, speed, interval, getAveragePoint()))
     }
 
     fun process() {
@@ -30,7 +30,7 @@ class MeasureData(interval: Long) {
             var speed = 0f
 
             if (i > 0) {
-                speed = data[i - 1].speedAfter.toFloat()
+                speed = data[i - 1].speedAfter
             }
             data.add(MeasurePoint(p.x, p.y, p.z, speed, interval, getAveragePoint()))
         }
@@ -68,11 +68,14 @@ class MeasureData(interval: Long) {
     }
 
     private fun getLastSpeed(): Float {
-        return data.last.speedAfter.toFloat()
+        if (data.size > 0) {
+            return data.last.speedAfter
+        }
+        return 0f
     }
 
     fun getCurrentSpeed(): Int {
-        return ((data.sumOf { it.speedAfter } / data.size) / 3600).toInt()
+        return ((data.sumOf { it.speedAfter.toDouble() } / data.size) / 3600).toInt()
     }
 
     fun getLastSpeedKm(): Int {

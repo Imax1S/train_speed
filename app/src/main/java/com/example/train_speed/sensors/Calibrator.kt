@@ -19,18 +19,20 @@ class Calibrator(
 
     fun calibrate() {
         val calTimer = Timer()
+
         calData = LinkedList<Point>()
         acc?.X = 0f
         acc?.Y = 0f
         acc?.Z = 0f
+
         calTimer.scheduleAtFixedRate(
             object : TimerTask() {
                 override fun run() {
-                    addCalData(calData)
+                    addCalData()
                     if (calData?.size ?: 0 > ITERATIONS) {
                         calTimer.cancel()
                         try {
-                            calSensor(calData)
+                            calSensor()
                         } catch (ex: Exception) {
                             try {
                                 throw ex
@@ -47,29 +49,34 @@ class Calibrator(
         )
     }
 
-    private fun addCalData(cD: LinkedList<Point>?) {
+    private fun addCalData() {
         val p: Point = acc?.getPoint() ?: return
-        cD?.add(p)
+        calData?.add(p)
         acc.reset()
     }
 
     @Throws
-    private fun calSensor(cD: LinkedList<Point>?) {
-        if (cD?.size ?: 0 < ITERATIONS - 1) {
+    private fun calSensor() {
+        if (calData?.size ?: 0 < ITERATIONS - 1) {
             throw Exception("not enough data to calibrate")
         }
         var x = 0f
         var y = 0f
         var z = 0f
+
         // Don't use first measure
-        for (i in 1 until cD!!.size) {
-            x += cD[i].x
-            y += cD[i].y
-            z += cD[i].z
+        for (i in 1 until calData!!.size) {
+            val element = calData?.get(i) ?: Point(0f, 0f, 0f)
+            x += element.x
+            y += element.y
+            z += element.z
         }
-        x /= (cD.size - 1)
-        y /= (cD.size - 1)
-        z /= (cD.size - 1)
+
+        val calDataSize = calData?.size ?: 1
+        x /= (calDataSize - 1)
+        y /= (calDataSize - 1)
+        z /= (calDataSize - 1)
+
         acc?.X = -x
         acc?.Y = -y
         acc?.Z = -z

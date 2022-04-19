@@ -7,16 +7,18 @@ import androidx.lifecycle.MutableLiveData
 import kotlin.math.abs
 
 class GravitySensor : SensorEventListener {
-    var valueOfTook = 0.03
+    companion object {
+        const val valueOfTook = 0.1
+    }
+
     var lastY = 0f
-    var y = 0f
     var tooks = MutableLiveData(0)
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (abs(lastY - (event?.values?.get(2) ?: 0f)) > valueOfTook) {
+        if (abs(lastY - (event?.values?.get(1) ?: 0f)) > valueOfTook) {
             tooks.value = tooks.value?.plus(1)
         }
-        lastY = event?.values?.get(2) ?: 0f
+        lastY = event?.values?.get(1) ?: 0f
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {

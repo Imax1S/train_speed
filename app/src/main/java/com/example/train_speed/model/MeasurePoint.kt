@@ -10,7 +10,7 @@ data class MeasurePoint(
     private val interval: Long,
     private val averagePoint: Point
 ) {
-    var speedAfter = 0.0
+    var speedAfter = 0.0f
     private var distance = 0f
     private var acceleration = 0f
 
@@ -19,11 +19,12 @@ data class MeasurePoint(
     }
 
     private fun calc() {
-        acceleration = x * averagePoint.x + y * averagePoint.y + z * averagePoint.z
+        acceleration =
+            x * averagePoint.getCntX() + y * averagePoint.getCntY() + z * averagePoint.getCntZ()
         acceleration /= sqrt(averagePoint.getForce())
 
         val t = interval.toFloat() / 1000f
-        speedAfter = speedBefore + acceleration * t.toDouble()
+        speedAfter = speedBefore + acceleration * t
         distance = speedBefore * t + acceleration * t * t / 2
     }
 
